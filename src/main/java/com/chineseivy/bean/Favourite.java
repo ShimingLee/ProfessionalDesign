@@ -1,17 +1,15 @@
 package com.chineseivy.bean;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 /**
- * Created by Shiming Lee on 2018/3/22
+ * created by tiankunping on 2018/3/22
+ * 收藏夹
  */
 public class Favourite {
     private int favouriteID;
     private int goodID;
     private int customerID;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date addFavouriteTime;
 
     public Favourite() {
