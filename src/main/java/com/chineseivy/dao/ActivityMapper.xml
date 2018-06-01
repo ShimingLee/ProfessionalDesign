@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chineseivy.dao.ActivityMapper">
+    <resultMap id="BaseResultMap" type="com.chineseivy.bean.Activity">
+        <id column="activityId" jdbcType="INTEGER" property="activityid"/>
+        <result column="goodClassId" jdbcType="INTEGER" property="goodclassid"/>
+        <result column="activityTheme" jdbcType="VARCHAR" property="activitytheme"/>
+        <result column="activityText" jdbcType="VARCHAR" property="activitytext"/>
+        <result column="activityImg" jdbcType="VARCHAR" property="activityimg"/>
+        <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
+        <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
+        <result column="aim" jdbcType="DOUBLE" property="aim"/>
+        <result column="reduce" jdbcType="DOUBLE" property="reduce"/>
+    </resultMap>
+    <resultMap id="BaseResultMap" type="com.chineseivy.bean.ActivityPackage">
+        <id column="activityId" jdbcType="INTEGER" property="activityid"/>
+        <result column="activityTheme" jdbcType="VARCHAR" property="activitytheme"/>
+        <result column="activityText" jdbcType="VARCHAR" property="activitytext"/>
+        <result column="activityImg" jdbcType="VARCHAR" property="activityimg"/>
+        <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
+        <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
+        <result column="aim" jdbcType="DOUBLE" property="aim"/>
+        <result column="reduce" jdbcType="DOUBLE" property="reduce"/>
+        <association property="goodClass" javaType="com.chineseivy.bean.GoodClass">
+            <id column="goodClassId" jdbcType="INTEGER" property="goodclassid"/>
+            <result column="categoriesId" jdbcType="INTEGER" property="categoriesid"/>
+            <result column="goodClassName" jdbcType="VARCHAR" property="goodclassname"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+    activityId, goodClassId, activityTheme, activityText, activityImg, activityStartTime,
+    activityEndTime, aim, reduce
+  </sql>
+    <select id="selectAllActivity" resultMap="packageResultMap">
+    SELECT
+    t_activity.*,tgC.*
+    FROM t_activity
+    INNER JOIN t_goodClass tgC ON t_activity.goodClassId = tgC.goodClassId
+  </select>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
+      SELECT
+    t_activity.*,tgC.*
+    FROM t_activity
+    INNER JOIN t_goodClass tgC ON t_activity.goodClassId = tgC.goodClassId
+        where activityId = #{activityid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_activity
+    where activityId = #{activityid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertSelective" parameterType="com.chineseivy.bean.Activity">
+        insert into t_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityid != null">
+                activityId,
+            </if>
+            <if test="goodclassid != null">
+                goodClassId,
+            </if>
+            <if test="activitytheme != null">
+                activityTheme,
+            </if>
+            <if test="activitytext != null">
+                activityText,
+            </if>
+            <if test="activityimg != null">
+                activityImg,
+            </if>
+            <if test="activitystarttime != null">
+                activityStartTime,
+            </if>
+            <if test="activityendtime != null">
+                activityEndTime,
+            </if>
+            <if test="aim != null">
+                aim,
+            </if>
+            <if test="reduce != null">
+                reduce,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityid != null">
+                #{activityid,jdbcType=INTEGER},
+            </if>
+            <if test="goodclassid != null">
+                #{goodclassid,jdbcType=INTEGER},
+            </if>
+            <if test="activitytheme != null">
+                #{activitytheme,jdbcType=VARCHAR},
+            </if>
+            <if test="activitytext != null">
+                #{activitytext,jdbcType=VARCHAR},
+            </if>
+            <if test="activityimg != null">
+                #{activityimg,jdbcType=VARCHAR},
+            </if>
+            <if test="activitystarttime != null">
+                #{activitystarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityendtime != null">
+                #{activityendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="aim != null">
+                #{aim,jdbcType=DOUBLE},
+            </if>
+            <if test="reduce != null">
+                #{reduce,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Activity">
+        update t_activity
+        <set>
+            <if test="goodclassid != null">
+                goodClassId = #{goodclassid,jdbcType=INTEGER},
+            </if>
+            <if test="activitytheme != null">
+                activityTheme = #{activitytheme,jdbcType=VARCHAR},
+            </if>
+            <if test="activitytext != null">
+                activityText = #{activitytext,jdbcType=VARCHAR},
+            </if>
+            <if test="activityimg != null">
+                activityImg = #{activityimg,jdbcType=VARCHAR},
+            </if>
+            <if test="activitystarttime != null">
+                activityStartTime = #{activitystarttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="activityendtime != null">
+                activityEndTime = #{activityendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="aim != null">
+                aim = #{aim,jdbcType=DOUBLE},
+            </if>
+            <if test="reduce != null">
+                reduce = #{reduce,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where activityId = #{activityid,jdbcType=INTEGER}
+    </update>
+</mapper>

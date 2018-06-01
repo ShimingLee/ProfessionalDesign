@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chineseivy.dao.WarehouseMapper">
+  <resultMap id="BaseResultMap" type="com.chineseivy.bean.Warehouse">
+    <id column="goodId" jdbcType="INTEGER" property="goodid" />
+    <id column="shopId" jdbcType="INTEGER" property="shopid" />
+    <result column="supplyTime" jdbcType="TIMESTAMP" property="supplytime" />
+    <result column="supplyNumber" jdbcType="INTEGER" property="supplynumber" />
+    <result column="wareNumber" jdbcType="INTEGER" property="warenumber" />
+  </resultMap>
+  <!--重新封装的-->
+  <resultMap id="packageResultMap" type="com.chineseivy.bean.WarehousePackage">
+    <result column="supplyTime" jdbcType="TIMESTAMP" property="supplytime" />
+    <result column="supplyNumber" jdbcType="INTEGER" property="supplynumber" />
+    <result column="wareNumber" jdbcType="INTEGER" property="warenumber" />
+    <association property="good" javaType="com.chineseivy.bean.Good">
+      <id column="goodId" jdbcType="INTEGER" property="goodid" />
+      <result column="shopId" jdbcType="INTEGER" property="shopid" />
+      <result column="recommendId" jdbcType="INTEGER" property="recommendid" />
+      <result column="recommendPrice" jdbcType="DOUBLE" property="recommendprice" />
+      <result column="goodName" jdbcType="VARCHAR" property="goodname" />
+      <result column="oldPrice" jdbcType="DOUBLE" property="oldprice" />
+      <result column="price" jdbcType="DOUBLE" property="price" />
+      <result column="activityId" jdbcType="INTEGER" property="activityid" />
+      <result column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
+      <result column="activityPrice" jdbcType="DOUBLE" property="activityprice" />
+      <result column="picture" jdbcType="VARCHAR" property="picture" />
+      <result column="standard" jdbcType="VARCHAR" property="standard" />
+      <result column="goodState" jdbcType="INTEGER" property="goodstate" />
+      <result column="activtiyState" jdbcType="INTEGER" property="activtiystate" />
+    </association>
+    <association property="shop" javaType="com.chineseivy.bean.Shop">
+      <id column="shopId" jdbcType="INTEGER" property="shopid" />
+      <result column="shopName" jdbcType="VARCHAR" property="shopname" />
+      <result column="shopPassword" jdbcType="VARCHAR" property="shoppassword" />
+      <result column="shopTel" jdbcType="VARCHAR" property="shoptel" />
+      <result column="shopStar" jdbcType="INTEGER" property="shopstar" />
+      <result column="shopAddres" jdbcType="VARCHAR" property="shopaddres" />
+      <result column="registerTime" jdbcType="TIMESTAMP" property="registertime" />
+      <result column="shopState" jdbcType="INTEGER" property="shopstate" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    goodId, shopId, supplyTime, supplyNumber, wareNumber
+  </sql>
+
+  <select id="selectAllWarehouse" resultMap="packageResultMap">
+    SELECT t_warehouse.supplyNumber,t_warehouse.supplyTime,t_warehouse.wareNumber,good.*,shop.*
+    FROM t_warehouse
+    INNER JOIN t_good good ON t_warehouse.goodId = good.goodId
+    INNER JOIN t_shop shop ON t_warehouse.shopId = shop.shopId
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="com.chineseivy.bean.WarehouseKey" resultMap="packageResultMap">
+    select 'true' as QUERYID,
+    t_warehouse.supplyNumber,t_warehouse.supplyTime,t_warehouse.wareNumber,good.*,shop.*
+    from t_warehouse
+    INNER JOIN t_good good ON t_warehouse.goodId = good.goodId
+    INNER JOIN t_shop shop ON t_warehouse.shopId = shop.shopId
+    <where>
+        <if test="goodid != null">
+          goodId = #{goodid,jdbcType=INTEGER}
+        </if>
+        <if test="shopid != null">
+          and shopId = #{shopid,jdbcType=INTEGER}
+        </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chineseivy.bean.WarehouseKey">
+    delete from t_warehouse
+      <where>
+        <if test="goodid != null">
+          goodId = #{goodid,jdbcType=INTEGER}
+        </if>
+        <if test="shopid != null">
+          and shopId = #{shopid,jdbcType=INTEGER}
+        </if>
+      </where>
+  </delete>
+    <!--插入库存信息-->
+  <insert id="insertSelective" parameterType="com.chineseivy.bean.Warehouse">
+    insert into t_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodid != null">
+        goodId,
+      </if>
+      <if test="shopid != null">
+        shopId,
+      </if>
+      <if test="supplytime != null">
+        supplyTime,
+      </if>
+      <if test="supplynumber != null">
+        supplyNumber,
+      </if>
+      <if test="warenumber != null">
+        wareNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodid != null">
+        #{goodid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="supplytime != null">
+        #{supplytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplynumber != null">
+        #{supplynumber,jdbcType=INTEGER},
+      </if>
+      <if test="warenumber != null">
+        #{warenumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Warehouse">
+    update t_warehouse
+    <set>
+      <if test="supplytime != null">
+        supplyTime = #{supplytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplynumber != null">
+        supplyNumber = #{supplynumber,jdbcType=INTEGER},
+      </if>
+      <if test="warenumber != null">
+        wareNumber = #{warenumber,jdbcType=INTEGER},
+      </if>
+    </set>
+      <where>
+        <if test="goodid != null">
+          goodId = #{goodid,jdbcType=INTEGER}
+        </if>
+        <if test="shopid != null">
+          and shopId = #{shopid,jdbcType=INTEGER}
+        </if>
+      </where>
+  </update>
+
+</mapper>

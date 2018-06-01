@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--基本完整-->
+<mapper namespace="com.chineseivy.dao.ShopMapper">
+    <resultMap id="BaseResultMap" type="com.chineseivy.bean.Shop">
+        <id column="shopId" jdbcType="INTEGER" property="shopid"/>
+        <result column="shopName" jdbcType="VARCHAR" property="shopname"/>
+        <result column="shopPassword" jdbcType="VARCHAR" property="shoppassword"/>
+        <result column="shopTel" jdbcType="VARCHAR" property="shoptel"/>
+        <result column="shopStar" jdbcType="INTEGER" property="shopstar"/>
+        <result column="shopAddres" jdbcType="VARCHAR" property="shopaddres"/>
+        <result column="registerTime" jdbcType="TIMESTAMP" property="registertime"/>
+        <result column="shopState" jdbcType="INTEGER" property="shopstate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    shopId, shopName, shopPassword, shopTel, shopStar, shopAddres, registerTime, shopState
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from t_shop
+        where shopId = #{shopid,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_shop
+    where shopId = #{shopid,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insertSelective" parameterType="com.chineseivy.bean.Shop">
+        insert into t_shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopid != null">
+                shopId,
+            </if>
+            <if test="shopname != null">
+                shopName,
+            </if>
+            <if test="shoppassword != null">
+                shopPassword,
+            </if>
+            <if test="shoptel != null">
+                shopTel,
+            </if>
+            <if test="shopstar != null">
+                shopStar,
+            </if>
+            <if test="shopaddres != null">
+                shopAddres,
+            </if>
+            <if test="registertime != null">
+                registerTime,
+            </if>
+            <if test="shopstate != null">
+                shopState,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopid != null">
+                #{shopid,jdbcType=INTEGER},
+            </if>
+            <if test="shopname != null">
+                #{shopname,jdbcType=VARCHAR},
+            </if>
+            <if test="shoppassword != null">
+                #{shoppassword,jdbcType=VARCHAR},
+            </if>
+            <if test="shoptel != null">
+                #{shoptel,jdbcType=VARCHAR},
+            </if>
+            <if test="shopstar != null">
+                #{shopstar,jdbcType=INTEGER},
+            </if>
+            <if test="shopaddres != null">
+                #{shopaddres,jdbcType=VARCHAR},
+            </if>
+            <if test="registertime != null">
+                #{registertime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopstate != null">
+                #{shopstate,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Shop">
+        update t_shop
+        <set>
+            <if test="shopname != null">
+                shopName = #{shopname,jdbcType=VARCHAR},
+            </if>
+            <if test="shoppassword != null">
+                shopPassword = #{shoppassword,jdbcType=VARCHAR},
+            </if>
+            <if test="shoptel != null">
+                shopTel = #{shoptel,jdbcType=VARCHAR},
+            </if>
+            <if test="shopstar != null">
+                shopStar = #{shopstar,jdbcType=INTEGER},
+            </if>
+            <if test="shopaddres != null">
+                shopAddres = #{shopaddres,jdbcType=VARCHAR},
+            </if>
+            <if test="registertime != null">
+                registerTime = #{registertime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopstate != null">
+                shopState = #{shopstate,jdbcType=INTEGER},
+            </if>
+        </set>
+        where shopId = #{shopid,jdbcType=INTEGER}
+    </update>
+
+    <!--查询全部商店-->
+    <select id="selectAllShop" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_shop
+    </select>
+
+    <!--根据Id查询商店信息-->
+    <select id="selectShopByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_shop WHERE shopId = #{shopId}
+    </select>
+
+    <!--根据商店的星级数-->
+    <select id="selectShopByShopStar" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_shop WHERE shopStar = #{shopStar}
+    </select>
+</mapper>

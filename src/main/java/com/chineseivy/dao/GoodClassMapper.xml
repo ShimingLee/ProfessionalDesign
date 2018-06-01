@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chineseivy.dao.GoodClassMapper">
+  <resultMap id="BaseResultMap" type="com.chineseivy.bean.GoodClass">
+    <id column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
+    <result column="categoriesId" jdbcType="INTEGER" property="categoriesid" />
+    <result column="goodClassName" jdbcType="VARCHAR" property="goodclassname" />
+  </resultMap>
+
+  <resultMap id="packageResultMap" type="com.chineseivy.bean.GoodClassPackage">
+    <id column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
+    <result column="goodClassName" jdbcType="VARCHAR" property="goodclassname" />
+    <association property="categories" javaType="com.chineseivy.bean.Categories">
+      <id column="categoriesId" jdbcType="INTEGER" property="categoriesid" />
+      <result column="categoriesName" jdbcType="VARCHAR" property="categoriesname" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    goodClassId, categoriesId, goodClassName
+  </sql>
+
+  <select id="selectAllGoodClass" resultMap="packageResultMap">
+    select t_goodClass.*,tc.* from t_goodClass
+    INNER JOIN t_categories tc ON t_goodClass.categoriesId = tc.categoriesId;
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
+    select 'true' as QUERYID,
+    t_goodClass.*,tc.*
+    from t_goodClass INNER JOIN t_categories tc ON t_goodClass.categoriesId = tc.categoriesId
+    where goodClassId = #{goodclassid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goodClass
+    where goodClassId = #{goodclassid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.chineseivy.bean.GoodClass">
+    insert into t_goodClass
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodclassid != null">
+        goodClassId,
+      </if>
+      <if test="categoriesid != null">
+        categoriesId,
+      </if>
+      <if test="goodclassname != null">
+        goodClassName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodclassid != null">
+        #{goodclassid,jdbcType=INTEGER},
+      </if>
+      <if test="categoriesid != null">
+        #{categoriesid,jdbcType=INTEGER},
+      </if>
+      <if test="goodclassname != null">
+        #{goodclassname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.GoodClass">
+    update t_goodClass
+    <set>
+      <if test="categoriesid != null">
+        categoriesId = #{categoriesid,jdbcType=INTEGER},
+      </if>
+      <if test="goodclassname != null">
+        goodClassName = #{goodclassname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goodClassId = #{goodclassid,jdbcType=INTEGER}
+  </update>
+</mapper>
