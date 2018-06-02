@@ -56,46 +56,22 @@ public class RecommendController {
         return fileMessage;
     }
 
-    @RequestMapping(value = "/insertPicture",
-            method = RequestMethod.POST)
-    @ResponseBody
-    public String insertPicture(@RequestParam(value = "picture")MultipartFile picture){
-        String filePath = "";
-        if (picture!=null){
-            String originalPictureName = picture.getOriginalFilename();
-            String suffix = originalPictureName.substring(originalPictureName.lastIndexOf("."));
-            String fileName = UUID.randomUUID().toString() + suffix;
-            filePath = "resource/" + fileName;
-            File savePicture = new File(filePath);
-            try{
-                picture.transferTo(savePicture);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        return filePath;
-    }
-
-    @RequestMapping(value = "/findRecommendGoodByRecommendId/{recommendId}",
+    @RequestMapping(value = "/findRecommendByRecommendId",
             method = RequestMethod.GET)
     @ResponseBody
     /**
     * @Program: RecommendController.java
-    * @Method: findRecommendGoodByRecommendId
+    * @Method: findRecommendByRecommendId
     * @Description: 查找推荐商品信息根据Id
     * @Author: Shiming Lee
     * @Create: 2018/5/24 11:48
     * @params: [recommendId]
     * @returns: com.chineseivy.util.OBeanBase
     **/
-    public OBeanBase findRecommendGoodByRecommendId(@PathVariable(value = "recommendId")int recommendId){
+    public OBeanBase findRecommendByRecommendId(@RequestParam(value = "recommendId")int recommendId){
         RecommendPackage recommend = recommendService.selectByRecommendKey(recommendId);
         if (recommend.getRecommendtheme()!=null) {
-            File picture = new File(recommend.getRecommendimg());
-            List message = new ArrayList();
-            message.add(recommend);
-            message.add(picture);
-            recommendMessage.setDatamessage(message);
+            recommendMessage.setDatamessage(recommend);
             recommendMessage.setMessage("查找成功");
             recommendMessage.setClassName(this.getClass());
         }else {
@@ -105,23 +81,68 @@ public class RecommendController {
         return recommendMessage;
     }
 
+    @RequestMapping(value = "/findAllRecommend",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public OBeanBase findAllRecommend(){
+        List<RecommendPackage> recommendList = recommendService.selectAllRecommendMessages();
+        recommendMessage.setDatamessage(recommendList);
+        return recommendMessage;
+    }
 
-    @RequestMapping(value = "/insertRecommendGood",
+    @RequestMapping(value = "/insertRecommend",
             method = RequestMethod.GET)
     @ResponseBody
     /**
     * @Program: RecommendController.java
-    * @Method: insertRecommendGood
+    * @Method: insertRecommend
     * @Description: 插入推荐商品
     * @Author: Shiming Lee
     * @Create: 2018/5/24 12:45
     * @params: [recommend]
     * @returns: com.chineseivy.util.OBeanBase
     **/
-    public OBeanBase insertRecommendGood(@RequestBody Recommend recommend){
+    public OBeanBase insertRecommend(@RequestBody Recommend recommend){
         int flag = recommendService.insertRecommend(recommend);
         recommendMessage.setDatamessage(flag);
         recommendMessage.setMessage("添加成功");
         return  recommendMessage;
+    }
+
+    @RequestMapping(value = "/updateRecommend",
+            method = RequestMethod.PUT)
+    @ResponseBody
+    /**
+    * @Program: RecommendController.java
+    * @Method: updateRecommend
+    * @Description: 更新推荐信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 17:20
+    * @params: [recommend]
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
+    public OBeanBase updateRecommend(@RequestBody Recommend recommend){
+        int flag = recommendService.updateByRecommendId(recommend);
+        recommendMessage.setDatamessage(flag);
+        recommendMessage.setMessage("更新成功");
+        return recommendMessage;
+    }
+
+    @RequestMapping(value = "/deleteRecommend",
+            method = RequestMethod.DELETE)
+    @ResponseBody
+    /**
+    * @Program: RecommendController.java
+    * @Method: deleteRecommend
+    * @Description: 删除推荐信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 17:20
+    * @params: [recommendId]
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
+    public OBeanBase deleteRecommend(@RequestParam(value = "recommendId")int recommendId){
+        int flag = recommendService.deleteByRecommendId(recommendId);
+        recommendMessage.setDatamessage(flag);
+        return recommendMessage;
     }
 }

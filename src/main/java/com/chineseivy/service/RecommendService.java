@@ -12,6 +12,8 @@ import java.util.List;
 public interface RecommendService {
     int insertRecommend(Recommend recommend);
     RecommendPackage selectByRecommendKey(int recommendId);
+    List<RecommendPackage> selectAllRecommendMessages();
     int updateByRecommendId(Recommend recommend);
+    int deleteByRecommendId(int recommendId);
 
 }

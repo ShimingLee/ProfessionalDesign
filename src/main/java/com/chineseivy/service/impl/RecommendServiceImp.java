@@ -32,14 +32,33 @@ public class RecommendServiceImp implements RecommendService {
         return flag;
     }
 
+    /**
+    * @Program: RecommendServiceImp.java
+    * @Method: 
+    * @Description: 根据ID选择推荐信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 16:54
+    * @params: 
+    * @returns: 
+    **/
     public RecommendPackage selectByRecommendKey(int recommendId) {
         RecommendPackage recommend = recommendMapper.selectByPrimaryKey(recommendId);
         return recommend;
     }
 
+    public List<RecommendPackage> selectAllRecommendMessages() {
+        List<RecommendPackage> recommendList = recommendMapper.selectAllRecommend();
+        return  recommendList;
+    }
+
 
     public int updateByRecommendId(Recommend recommend) {
         int flag = recommendMapper.updateByPrimaryKeySelective(recommend);
+        return flag;
+    }
+
+    public int deleteByRecommendId(int recommendId) {
+        int flag = recommendMapper.deleteByPrimaryKey(recommendId);
         return flag;
     }
 }
