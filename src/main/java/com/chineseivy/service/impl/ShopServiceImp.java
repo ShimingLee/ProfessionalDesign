@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  **/
 @Service("shopService")
 public class ShopServiceImp implements ShopService {
-    @Autowired
+
     private ShopMapper shopMapper;
 
     public Shop selectShopByPrimaryKey(Integer shopId) {

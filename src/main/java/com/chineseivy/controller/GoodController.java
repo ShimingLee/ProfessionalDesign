@@ -48,7 +48,7 @@ public class GoodController {
             String originalPictureName = picture.getOriginalFilename();
             String suffix = originalPictureName.substring(originalPictureName.lastIndexOf("."));
             String fileName = UUID.randomUUID().toString() + suffix;
-            filePath = "resources/" + fileName;
+            filePath = "resources/img/" + fileName;
             File savePicture = new File(filePath);
             fileMessage.setMessage(filePath);
             try {

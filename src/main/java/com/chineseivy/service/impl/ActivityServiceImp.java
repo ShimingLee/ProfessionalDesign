@@ -20,7 +20,6 @@ import java.util.List;
 @Service("activityService")
 public class ActivityServiceImp implements ActivityService {
 
-    @Autowired
     private ActivityMapper activityMapper;
 
     public int deleteByPrimaryKey(Integer activityid) {

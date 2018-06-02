@@ -12,7 +12,7 @@
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
         <result column="reduce" jdbcType="DOUBLE" property="reduce"/>
     </resultMap>
-    <resultMap id="BaseResultMap" type="com.chineseivy.bean.ActivityPackage">
+    <resultMap id="packageResultMap" type="com.chineseivy.bean.ActivityPackage">
         <id column="activityId" jdbcType="INTEGER" property="activityid"/>
         <result column="activityTheme" jdbcType="VARCHAR" property="activitytheme"/>
         <result column="activityText" jdbcType="VARCHAR" property="activitytext"/>

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service("goodService")
 public class GoodServiceImp implements GoodService {
-    @Autowired
+
     private GoodMapper goodMapper;
     /**
      * 查询商品列表

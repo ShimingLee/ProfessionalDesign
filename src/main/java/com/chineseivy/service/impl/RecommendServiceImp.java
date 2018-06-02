@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service("recommendService")
 public class RecommendServiceImp implements RecommendService {
-    @Autowired
+
     private RecommendMapper recommendMapper;
 
     /**

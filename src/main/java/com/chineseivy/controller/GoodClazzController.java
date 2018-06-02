@@ -69,6 +69,7 @@ public class GoodClazzController {
         goodClazzMessage.setDatamessage(flag);
         return goodClazzMessage;
     }
+
     @RequestMapping(value = "/deleteByPrimaryKey",
             method = RequestMethod.DELETE)
     @ResponseBody

@@ -19,7 +19,7 @@ import java.util.List;
  **/
 @Service("goodClazzService")
 public class GoodClazzServiceImp implements GoodClazzService {
-    @Autowired
+
     private GoodClassMapper goodClassMapper;
 
     public GoodClassPackage selectGoodClazzByPrimaryKey(Integer goodId) {
