@@ -30,7 +30,8 @@ public class GoodClazzController {
     private OBeanBase goodClazzMessage = new OBeanBase();
 
     @RequestMapping(value = "/selectAllGoodClazz",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase selectAllGoodClazz(){
         List<GoodClassPackage> goodClassPackages = goodClazzService.selectAllGoodClass();
@@ -48,7 +49,8 @@ public class GoodClazzController {
     }
 
     @RequestMapping(value = "/insertByPrimaryKey",
-            method = RequestMethod.POST)
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase insertByPrimaryKey(@RequestBody GoodClass goodClass){
         int flag = goodClazzService.insertSelective(goodClass);

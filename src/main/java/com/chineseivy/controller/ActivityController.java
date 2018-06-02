@@ -7,10 +7,7 @@ import com.chineseivy.util.OBeanBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,27 +51,57 @@ public class ActivityController {
         }
         return fileMessage;
     }
-
-
+    
     @RequestMapping(value = "/insertActivity",
-            method = RequestMethod.POST)
-    public OBeanBase insertActivity(Activity activity){
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    /**
+    * @Program: ActivityController.java
+    * @Method: insertActivity
+    * @Description: 增加活动信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 17:57
+    * @params: [activity]
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
+    public OBeanBase insertActivity(@RequestBody Activity activity){
         int flag = activityService.insertActivity(activity);
         activityMessage.setDatamessage(flag);
         return activityMessage;
     }
 
-    @RequestMapping(value = "/selectActivity",
+    @RequestMapping(value = "/selectAllActivity",
             method = RequestMethod.GET)
+    @ResponseBody
+    /**
+    * @Program: ActivityController.java
+    * @Method: selectAllActivity
+    * @Description: 选择全部活动信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 17:58
+    * @params: []
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
     public OBeanBase selectAllActivity(){
         List<ActivityPackage> activityList = activityService.selectAllActivity();
         activityMessage.setDatamessage(activityList);
         return activityMessage;
     }
-
+    
     @RequestMapping(value = "/selectByPrimaryKey",
             method = RequestMethod.GET)
-    public OBeanBase selectByPrimaryKey(Integer activityId){
+    @ResponseBody
+    /**
+    * @Program: ActivityController.java
+    * @Method: selectByPrimaryKey
+    * @Description: 
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 18:00
+    * @params: [activityId]
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
+    public OBeanBase selectByPrimaryKey(@RequestParam(value = "activityId") Integer activityId){
         ActivityPackage activity = activityService.selectByPrimaryKey(activityId);
         activityMessage.setDatamessage(activity);
         return activityMessage;
@@ -82,7 +109,8 @@ public class ActivityController {
 
     @RequestMapping(value = "/updateByPrimaryKey",
             method = RequestMethod.PUT)
-    public OBeanBase updateByPrimaryKey(Activity activity){
+    @ResponseBody
+    public OBeanBase updateByPrimaryKey(@RequestBody Activity activity){
         int flag = activityService.updateByPrimaryKeySelective(activity);
         activityMessage.setDatamessage(flag);
         return activityMessage;
@@ -90,7 +118,7 @@ public class ActivityController {
 
     @RequestMapping(value = "/deleteByPrimaryKey",
             method = RequestMethod.DELETE)
-    public OBeanBase deleteByPrimaryKey(Integer activityId){
+    public OBeanBase deleteByPrimaryKey(@RequestParam(value = "activityId") Integer activityId){
         int flag = activityService.deleteByPrimaryKey(activityId);
         activityMessage.setDatamessage(flag);
         return activityMessage;

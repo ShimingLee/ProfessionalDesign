@@ -82,7 +82,8 @@ public class RecommendController {
     }
 
     @RequestMapping(value = "/findAllRecommend",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase findAllRecommend(){
         List<RecommendPackage> recommendList = recommendService.selectAllRecommendMessages();
@@ -91,7 +92,8 @@ public class RecommendController {
     }
 
     @RequestMapping(value = "/insertRecommend",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
     * @Program: RecommendController.java
@@ -110,7 +112,8 @@ public class RecommendController {
     }
 
     @RequestMapping(value = "/updateRecommend",
-            method = RequestMethod.PUT)
+            method = RequestMethod.PUT,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
     * @Program: RecommendController.java

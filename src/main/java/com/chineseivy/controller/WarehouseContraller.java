@@ -30,12 +30,13 @@ public class WarehouseContraller {
     private OBeanBase warehouseMessage = new OBeanBase();
 
     @RequestMapping(value = "/insertWarehouse",
-            method = RequestMethod.POST)
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
      * @Program: WarehouseController.java
      * @Method: insertWarehouse
-     * @Description: 插入库存量信息
+     * @Description: 插入库存信息
      * @Author: Shiming Lee
      * @Create: 2018/5/24 13:26
      * @params: [warehouse]
@@ -56,7 +57,8 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/deleteWarehouse",
-            method = RequestMethod.DELETE)
+            method = RequestMethod.DELETE,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase deleteWarehouse(@RequestBody WarehouseKey warehouseKey) {
         int flag = warehouseService.deleteWarehouse(warehouseKey);
@@ -66,12 +68,13 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/updateWarehouse",
-            method = RequestMethod.PUT)
+            method = RequestMethod.PUT,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
      * @Program: WarehouseController.java
      * @Method: updateWarehouse
-     * @Description: 更新库存量
+     * @Description: 更新库存信息
      * @Author: Shiming Lee
      * @Create: 2018/5/24 15:28
      * @params: [warehouseId, warehouseExample]
@@ -92,7 +95,8 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/selectAllWarehouse",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
      * @Program: WarehouseController.java
@@ -112,12 +116,13 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/selectWarehouseByWarehouseId",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
      * @Program: WarehouseController.java
      * @Method: selectWarehouseByWarehouseId
-     * @Description:
+     * @Description: 按仓库ID查询仓库信息
      * @Author: Shiming Lee
      * @Create: 2018/5/24 15:28
      * @params: [warehouseId]

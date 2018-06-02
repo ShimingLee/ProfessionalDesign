@@ -22,7 +22,8 @@ public class CategoriesController {
     private OBeanBase categoriesMessage = new OBeanBase();
 
     @RequestMapping(value = "/selectAllCategories",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase selectAllCategories(){
         List<Categories> categoriesList = categoriesService.selectAllCategories();
@@ -40,7 +41,8 @@ public class CategoriesController {
     }
 
     @RequestMapping(value = "/updateCategoriesByPrimary",
-            method = RequestMethod.PUT)
+            method = RequestMethod.PUT,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public OBeanBase updateCategoriesByPrimary(@RequestBody Categories categories){
         int flag = categoriesService.updateByPrimaryKeySelective(categories);
