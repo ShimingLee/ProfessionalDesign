@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,14 +42,25 @@ public class GoodController {
     @RequestMapping(value = "/insertPicture",
             method = RequestMethod.POST)
     @ResponseBody
-    public OBeanBase insertPicture(@RequestParam(value = "picture") MultipartFile picture) {
+    /**
+    * @Program: GoodController.java
+    * @Method: insertPicture
+    * @Description: 插入新的图片信息
+    * @Author: Shiming Lee
+    * @Create: 2018/6/2 16:00
+    * @params: [picture, request]
+    * @returns: com.chineseivy.util.OBeanBase
+    **/
+    public OBeanBase insertPicture(@RequestParam(value = "picture") MultipartFile picture, HttpServletRequest request) {
         OBeanBase fileMessage = new OBeanBase();
         String filePath = "";
-        if (picture != null) {
+        if (picture.isEmpty()) {
+            System.out.println("文件未上传");
+        }else {
             String originalPictureName = picture.getOriginalFilename();
             String suffix = originalPictureName.substring(originalPictureName.lastIndexOf("."));
-            String fileName = UUID.randomUUID().toString() + suffix;
-            filePath = "resources/img/" + fileName;
+            String fileName = request.getSession().getServletContext().getRealPath("/")+UUID.randomUUID().toString() + suffix;
+            filePath = fileName;
             File savePicture = new File(filePath);
             fileMessage.setMessage(filePath);
             try {
