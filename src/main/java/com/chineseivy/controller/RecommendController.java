@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,30 @@ public class RecommendController {
     @Qualifier("recommendService")
     private RecommendService recommendService;
     private OBeanBase recommendMessage = new OBeanBase();
+
+    @RequestMapping(value = "/insertPicture",
+            method = RequestMethod.POST)
+    @ResponseBody
+    public OBeanBase insertPicture(@RequestParam(value = "picture") MultipartFile picture, HttpServletRequest request) {
+        OBeanBase fileMessage = new OBeanBase();
+        String filePath = "";
+        if (picture.isEmpty()) {
+            System.out.println("文件未上传");
+        }else {
+            String originalPictureName = picture.getOriginalFilename();
+            String suffix = originalPictureName.substring(originalPictureName.lastIndexOf("."));
+            String fileName = request.getSession().getServletContext().getRealPath("/")+ UUID.randomUUID().toString() + suffix;
+            filePath = fileName;
+            File savePicture = new File(filePath);
+            fileMessage.setMessage(filePath);
+            try {
+                picture.transferTo(savePicture);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fileMessage;
+    }
 
     @RequestMapping(value = "/insertPicture",
             method = RequestMethod.POST)
