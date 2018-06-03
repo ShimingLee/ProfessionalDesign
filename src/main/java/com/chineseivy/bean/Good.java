@@ -8,9 +8,7 @@ public class Good {
 
     private Integer shopid;
 
-    private Integer recommendid;
-
-    private Double recommendprice;
+    private Integer recommendstate;
 
     private String goodname;
 
@@ -38,14 +36,6 @@ public class Good {
 
     public void setGoodid(Integer goodid) {
         this.goodid = goodid;
-    }
-
-    public Double getRecommendprice() {
-        return recommendprice;
-    }
-
-    public void setRecommendprice(Double recommendprice) {
-        this.recommendprice = recommendprice;
     }
 
     public String getGoodname() {
@@ -112,12 +102,20 @@ public class Good {
         this.activtiystate = activtiystate;
     }
 
-    public Integer getRecommendid() {
-        return recommendid;
+    public Integer getRecommendstate() {
+        return recommendstate;
     }
 
-    public void setRecommendid(Integer recommendid) {
-        this.recommendid = recommendid;
+    public void setRecommendstate(Integer recommendstate) {
+        this.recommendstate = recommendstate;
+    }
+
+    public Integer getGoodclassid() {
+        return goodclassid;
+    }
+
+    public void setGoodclassid(Integer goodclassid) {
+        this.goodclassid = goodclassid;
     }
 
     public Integer getActivityid() {
