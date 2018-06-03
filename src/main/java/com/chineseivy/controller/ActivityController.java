@@ -118,6 +118,7 @@ public class ActivityController {
 
     @RequestMapping(value = "/deleteByPrimaryKey",
             method = RequestMethod.DELETE)
+    @ResponseBody
     public OBeanBase deleteByPrimaryKey(@RequestParam(value = "activityId") Integer activityId){
         int flag = activityService.deleteByPrimaryKey(activityId);
         activityMessage.setDatamessage(flag);

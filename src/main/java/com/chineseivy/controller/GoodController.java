@@ -38,7 +38,7 @@ public class GoodController {
     @Autowired
     @Qualifier("goodService")
     private GoodService goodService;
-
+    private OBeanBase goodMessage = new OBeanBase();
     @RequestMapping(value = "/insertPicture",
             method = RequestMethod.POST)
     @ResponseBody
@@ -72,33 +72,6 @@ public class GoodController {
         return fileMessage;
     }
 
-    @RequestMapping(value = "/updateGoodMessage",
-            method = RequestMethod.PUT,
-            produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    /**
-     * @Program: GoodController.java
-     * @Method: updateGoodMessage
-     * @Description: 更新商品信息
-     * @Author: Shiming Lee
-     * @Create: 2018/5/20 22:38
-     * @params: [goodState, good]
-     * @returns: com.chineseivy.util.OBeanBase
-     **/
-    public OBeanBase updateGoodMessage(@RequestBody Good good) {
-        OBeanBase goodMessage = new OBeanBase();
-        if (good.getGoodstate() == 0) {
-            goodMessage.setCode("200");
-            goodService.updateGood(good);
-        } else if (good.getGoodstate() == 2) {
-            goodMessage.setCode("10821");
-        } else if (good.getGoodstate() == 1) {
-            goodMessage.setCode("200");
-            goodService.updateGood(good);
-        }
-        return goodMessage;
-    }
-
     @RequestMapping(value = "/insertGoodMessage",
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
@@ -113,7 +86,6 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase insertGoodMessage(@RequestBody Good good) {
-        OBeanBase goodMessage = new OBeanBase();
         int flag = goodService.insertGood(good);
         if (flag > 0) {
             goodMessage.setCode(OBeanBase.TRUECODE);
@@ -121,6 +93,8 @@ public class GoodController {
             goodMessage.setDatamessage(flag);
         } else {
             goodMessage.setMessage("插入失败");
+            goodMessage.setCode(OBeanBase.FALSECODE);
+            goodMessage.setDatamessage(flag);
         }
         return goodMessage;
     }
@@ -138,14 +112,15 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase findGoodMessageByGoodKey(@RequestParam int goodId) {
-        OBeanBase goodMessage = new OBeanBase();
         GoodPackage good = goodService.selectGoodByPrimaryKey(goodId);
-        System.out.println("fsdewrewtt-----------"+goodId);
-//        System.out.println(good.getGoodname());
-//        System.out.println(good.getGoodstate());
-        goodMessage.setDatamessage(good);
-        goodMessage.setClassName(this.getClass());
-        goodMessage.setCode(OBeanBase.TRUECODE);
+        if (good.getGoodid()!=null){
+            goodMessage.setDatamessage(good);
+            goodMessage.setCode(OBeanBase.TRUECODE);
+            goodMessage.setMessage("查询成功");
+        }else {
+            goodMessage.setCode(OBeanBase.FALSECODE);
+            goodMessage.setMessage("查询失败");
+        }
         return goodMessage;
     }
 
@@ -162,14 +137,53 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase findAllGoodMessage() {
-        OBeanBase goodMessage = new OBeanBase();
         List<GoodPackage> goodList = goodService.selectAllGood();
         goodMessage.setDatamessage(goodList);
         goodMessage.setClassName(this.getClass());
         if (goodList.isEmpty() != false) {
             goodMessage.setCode(OBeanBase.TRUECODE);
+            goodMessage.setMessage("查询成功");
         } else {
             goodMessage.setCode(OBeanBase.DATABASEFALSECODE);
+            goodMessage.setMessage("查询失败");
+        }
+        return goodMessage;
+    }
+
+    @RequestMapping(value = "/updateGoodMessage",
+            method = RequestMethod.PUT,
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    /**
+     * @Program: GoodController.java
+     * @Method: updateGoodMessage
+     * @Description: 更新商品信息
+     * @Author: Shiming Lee
+     * @Create: 2018/5/20 22:38
+     * @params: [goodState, good]
+     * @returns: com.chineseivy.util.OBeanBase
+     **/
+    public OBeanBase updateGoodMessage(@RequestBody Good good) {
+        int flag = 0;
+        if (good.getGoodstate() == 0 && good.getGoodid()!=null) {
+            flag = goodService.updateGood(good);
+        } else if (good.getGoodstate() == 2) {
+            goodMessage.setCode(OBeanBase.CHECKFALSECODE);
+            goodMessage.setMessage("验证拒绝");
+            goodMessage.setDatamessage("管理员下架处理");
+        } else if (good.getGoodstate() == 1 && good.getGoodid()!=null) {
+            flag = goodService.updateGood(good);
+        } else if(good.getGoodid()==null){
+            goodMessage.setMessage("未携带商品ID");
+        } else{
+            goodMessage.setMessage("未知错误");
+        }
+        if (flag>0){
+            goodMessage.setCode(OBeanBase.TRUECODE);
+            goodMessage.setMessage("更新成功");
+        }else{
+            goodMessage.setMessage(OBeanBase.TRUECODE);
+            goodMessage.setMessage("更新失败");
         }
         return goodMessage;
     }
@@ -187,14 +201,15 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase deleteGoodMessageByGoodKey(@RequestParam int goodId) {
-        OBeanBase goodMessage = new OBeanBase();
         int flag = goodService.deleteGoodByPrimaryKey(goodId);
         goodMessage.setDatamessage(flag);
         goodMessage.setClassName(this.getClass());
-        if (flag != 0) {
+        if (flag > 0) {
             goodMessage.setCode(OBeanBase.TRUECODE);
+            goodMessage.setMessage("删除成功");
         } else {
             goodMessage.setCode(OBeanBase.DATABASEFALSECODE);
+            goodMessage.setMessage("查询失败");
         }
         return goodMessage;
     }

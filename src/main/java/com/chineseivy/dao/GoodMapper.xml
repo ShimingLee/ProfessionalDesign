@@ -4,8 +4,7 @@
   <resultMap id="BaseResultMap" type="com.chineseivy.bean.Good">
     <id column="goodId" jdbcType="INTEGER" property="goodid" />
     <result column="shopId" jdbcType="INTEGER" property="shopid" />
-    <result column="recommendId" jdbcType="INTEGER" property="recommendid" />
-    <result column="recommendPrice" jdbcType="DOUBLE" property="recommendprice" />
+    <result column="recommendState" jdbcType="INTEGER" property="recommendstate" />
     <result column="goodName" jdbcType="VARCHAR" property="goodname" />
     <result column="oldPrice" jdbcType="DOUBLE" property="oldprice" />
     <result column="price" jdbcType="DOUBLE" property="price" />
@@ -20,7 +19,7 @@
 
   <resultMap id="packageResultMap" type="com.chineseivy.bean.GoodPackage">
     <id column="goodId" jdbcType="INTEGER" property="goodid" />
-    <result column="recommendPrice" jdbcType="DOUBLE" property="recommendprice" />
+    <result column="recommendState" jdbcType="INTEGER" property="recommendstate" />
     <result column="goodName" jdbcType="VARCHAR" property="goodname" />
     <result column="oldPrice" jdbcType="DOUBLE" property="oldprice" />
     <result column="price" jdbcType="DOUBLE" property="price" />
@@ -39,15 +38,6 @@
       <result column="shopAddres" jdbcType="VARCHAR" property="shopaddres" />
       <result column="registerTime" jdbcType="TIMESTAMP" property="registertime" />
       <result column="shopState" jdbcType="INTEGER" property="shopstate" />
-    </association>
-    <association property="recommend" javaType="com.chineseivy.bean.Recommend">
-      <id column="recommendId" jdbcType="INTEGER" property="recommendid" />
-      <result column="shopId" jdbcType="INTEGER" property="shopid" />
-      <result column="recommendTheme" jdbcType="VARCHAR" property="recommendtheme" />
-      <result column="recommendText" jdbcType="VARCHAR" property="recommendtext" />
-      <result column="recommendStartTime" jdbcType="TIMESTAMP" property="recommendstarttime" />
-      <result column="recommendEndTime" jdbcType="TIMESTAMP" property="recommendendtime" />
-      <result column="recommendImg" jdbcType="VARCHAR" property="recommendimg" />
     </association>
     <association property="activity" javaType="com.chineseivy.bean.Activity">
       <id column="activityId" jdbcType="INTEGER" property="activityid" />
@@ -74,7 +64,6 @@
       INNER JOIN t_goodClass tgC ON t_good.goodClassId = tgC.goodClassId
       INNER JOIN t_shop shop ON t_good.shopId = shop.shopId
       INNER JOIN t_activity a ON t_good.activityId = a.activityId
-      INNER JOIN t_recommend t ON t_good.recommendId = t.recommendId
     where goodId = #{goodid,jdbcType=INTEGER}
   </select>
   <!--通过商品状态查找商品-->
@@ -85,7 +74,6 @@
     INNER JOIN t_goodClass tgC ON t_good.goodClassId = tgC.goodClassId
     INNER JOIN t_shop shop ON t_good.shopId = shop.shopId
     INNER JOIN t_activity a ON t_good.activityId = a.activityId
-    INNER JOIN t_recommend t ON t_good.recommendId = t.recommendId
     where goodState = #{goodState,jdbcType=INTEGER}
   </select>
   <!--查找全部商品信息-->
@@ -96,7 +84,6 @@
         INNER JOIN t_goodClass tgC ON t_good.goodClassId = tgC.goodClassId
         INNER JOIN t_shop shop ON t_good.shopId = shop.shopId
         INNER JOIN t_activity a ON t_good.activityId = a.activityId
-        INNER JOIN t_recommend t ON t_good.recommendId = t.recommendId
     </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_good
@@ -111,11 +98,8 @@
       <if test="shopid != null">
         shopId,
       </if>
-      <if test="recommendid != null">
-        recommendId,
-      </if>
-      <if test="recommendprice != null">
-        recommendPrice,
+      <if test="recommendstate != null">
+        recommendState,
       </if>
       <if test="goodname != null">
         goodName,
@@ -155,11 +139,8 @@
       <if test="shopid != null">
         #{shopid,jdbcType=INTEGER},
       </if>
-      <if test="recommendid != null">
-        #{recommendid,jdbcType=INTEGER},
-      </if>
-      <if test="recommendprice != null">
-        #{recommendprice,jdbcType=DOUBLE},
+      <if test="recommendstate != null">
+        #{recommendstate,jdbcType=INTEGER},
       </if>
       <if test="goodname != null">
         #{goodname,jdbcType=VARCHAR},
@@ -200,11 +181,8 @@
       <if test="shopid != null">
         shopId = #{shopid,jdbcType=INTEGER},
       </if>
-      <if test="recommendid != null">
-        recommendId = #{recommendid,jdbcType=INTEGER},
-      </if>
-      <if test="recommendprice != null">
-        recommendPrice = #{recommendprice,jdbcType=DOUBLE},
+      <if test="recommendstate != null">
+        recommendState = #{recommendstate,jdbcType=INTEGER},
       </if>
       <if test="goodname != null">
         goodName = #{goodname,jdbcType=VARCHAR},
