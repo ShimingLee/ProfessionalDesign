@@ -4,14 +4,13 @@ import java.util.Date;
 
 public class ActivityPackage {
     private Integer activityid;
-    private GoodClass goodclass;
+    private GoodClass goodClass;
     private String activitytheme;
     private String activitytext;
     private String activityimg;
     private Date activitystarttime;
     private Date activityendtime;
     private Double aim;
-    private Double reduce;
 
 
     public Integer getActivityid() {
@@ -21,12 +20,12 @@ public class ActivityPackage {
         this.activityid = activityid;
     }
 
-    public GoodClass getGoodclass() {
-        return goodclass;
+    public GoodClass getGoodClass() {
+        return goodClass;
     }
 
-    public void setGoodclass(GoodClass goodclass) {
-        this.goodclass = goodclass;
+    public void setGoodClass(GoodClass goodClass) {
+        this.goodClass = goodClass;
     }
 
     public String getActivitytheme() {
@@ -77,11 +76,4 @@ public class ActivityPackage {
         this.aim = aim;
     }
 
-    public Double getReduce() {
-        return reduce;
-    }
-
-    public void setReduce(Double reduce) {
-        this.reduce = reduce;
-    }
 }

@@ -43,15 +43,31 @@ public class WarehouseContraller {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase insertWarehouse(@RequestBody Warehouse warehouse) {
-        int flag = warehouseService.insertWarehouse(warehouse);
-        if (flag>0){
-            warehouseMessage.setMessage("插入成功");
-            warehouseMessage.setDatamessage(flag);
-            warehouseMessage.setClassName(this.getClass());
-            warehouseMessage.setCode("10010");
-        }else {
-            warehouseMessage.setMessage("插入失败");
-            warehouseMessage.setClassName(this.getClass());
+        WarehouseKey warehouseKey = new WarehouseKey();
+        if(warehouse.getGoodid()!=null&&warehouse.getShopid()!=null){
+            warehouseKey.setGoodid(warehouse.getGoodid());
+            warehouseKey.setShopid(warehouse.getShopid());
+            if (warehouseService.selectByPrimaryKey(warehouseKey)!=null){
+                warehouseMessage.setMessage("添加失败");
+                warehouseMessage.setDatamessage("已有该商品信息");
+            }else {
+                int flag = warehouseService.insertWarehouse(warehouse);
+                if (flag>0){
+                    warehouseMessage.setMessage("插入成功");
+                    warehouseMessage.setDatamessage(flag);
+                    warehouseMessage.setClassName(this.getClass().getName());
+                    warehouseMessage.setCode(OBeanBase.TRUECODE);
+                }else {
+                    warehouseMessage.setMessage("插入失败");
+                    warehouseMessage.setDatamessage("插入失败");
+                    warehouseMessage.setClassName(this.getClass().getName());
+                    warehouseMessage.setCode(OBeanBase.FALSECODE);
+                }
+            }
+        }else{
+            warehouseMessage.setDatamessage("ID值未携带完全");
+            warehouseMessage.setMessage("验证问题");
+            warehouseMessage.setCode(OBeanBase.CHECKFALSECODE);
         }
         return warehouseMessage;
     }
@@ -116,7 +132,7 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/selectWarehouseByWarehouseId",
-            method = RequestMethod.GET,
+            method = RequestMethod.PUT,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**

@@ -16,6 +16,7 @@ import java.util.List;
 @Service("goodService")
 public class GoodServiceImp implements GoodService {
 
+    @Autowired
     private GoodMapper goodMapper;
     /**
      * 查询商品列表
@@ -37,7 +38,9 @@ public class GoodServiceImp implements GoodService {
      * @return
      */
     public int insertGood(Good good){
+        System.out.println("9999999999999999999     "+good.getGoodname());
         int flag = goodMapper.insertSelective(good);
+        System.out.println("-----------"+flag);
         return flag;
     }
 
@@ -47,6 +50,7 @@ public class GoodServiceImp implements GoodService {
      * @return
      */
     public int updateGood(Good good){
+        System.out.println(good.getGoodname());
         int flag = goodMapper.updateByPrimaryKeySelective(good);
         return  flag;
     }

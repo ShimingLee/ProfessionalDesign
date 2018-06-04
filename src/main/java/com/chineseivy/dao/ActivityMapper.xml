@@ -10,7 +10,6 @@
         <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
         <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
-        <result column="reduce" jdbcType="DOUBLE" property="reduce"/>
     </resultMap>
     <resultMap id="packageResultMap" type="com.chineseivy.bean.ActivityPackage">
         <id column="activityId" jdbcType="INTEGER" property="activityid"/>
@@ -20,7 +19,6 @@
         <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
         <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
-        <result column="reduce" jdbcType="DOUBLE" property="reduce"/>
         <association property="goodClass" javaType="com.chineseivy.bean.GoodClass">
             <id column="goodClassId" jdbcType="INTEGER" property="goodclassid"/>
             <result column="categoriesId" jdbcType="INTEGER" property="categoriesid"/>
@@ -29,14 +27,16 @@
     </resultMap>
     <sql id="Base_Column_List">
     activityId, goodClassId, activityTheme, activityText, activityImg, activityStartTime,
-    activityEndTime, aim, reduce
+    activityEndTime, aim
   </sql>
+
     <select id="selectAllActivity" resultMap="packageResultMap">
     SELECT
     t_activity.*,tgC.*
     FROM t_activity
     INNER JOIN t_goodClass tgC ON t_activity.goodClassId = tgC.goodClassId
   </select>
+
     <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
       SELECT
     t_activity.*,tgC.*
@@ -75,9 +75,6 @@
             <if test="aim != null">
                 aim,
             </if>
-            <if test="reduce != null">
-                reduce,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activityid != null">
@@ -104,9 +101,6 @@
             <if test="aim != null">
                 #{aim,jdbcType=DOUBLE},
             </if>
-            <if test="reduce != null">
-                #{reduce,jdbcType=DOUBLE},
-            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Activity">
@@ -132,9 +126,6 @@
             </if>
             <if test="aim != null">
                 aim = #{aim,jdbcType=DOUBLE},
-            </if>
-            <if test="reduce != null">
-                reduce = #{reduce,jdbcType=DOUBLE},
             </if>
         </set>
         where activityId = #{activityid,jdbcType=INTEGER}

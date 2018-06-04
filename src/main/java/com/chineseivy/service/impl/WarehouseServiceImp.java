@@ -17,6 +17,7 @@ import java.util.List;
 @Service("warehouseService")
 public class WarehouseServiceImp implements WarehouseService {
 
+    @Autowired
     private WarehouseMapper warehouseMapper;
 
     public int insertWarehouse(Warehouse warehouse) {

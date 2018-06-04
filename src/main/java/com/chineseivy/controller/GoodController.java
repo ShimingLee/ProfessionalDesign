@@ -1,7 +1,9 @@
 package com.chineseivy.controller;
 
+import com.chineseivy.bean.ActivityPackage;
 import com.chineseivy.bean.Good;
 import com.chineseivy.bean.GoodPackage;
+import com.chineseivy.service.ActivityService;
 import com.chineseivy.service.GoodService;
 import com.chineseivy.util.OBeanBase;
 import com.wordnik.swagger.annotations.Api;
@@ -38,6 +40,7 @@ public class GoodController {
     @Autowired
     @Qualifier("goodService")
     private GoodService goodService;
+
     private OBeanBase goodMessage = new OBeanBase();
     @RequestMapping(value = "/insertPicture",
             method = RequestMethod.POST)
@@ -86,6 +89,7 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase insertGoodMessage(@RequestBody Good good) {
+        System.out.println(good.getGoodname());
         int flag = goodService.insertGood(good);
         if (flag > 0) {
             goodMessage.setCode(OBeanBase.TRUECODE);
@@ -100,7 +104,8 @@ public class GoodController {
     }
 
     @RequestMapping(value = "/findGoodMessageByGoodKey",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
      * @Program: GoodController.java
@@ -125,7 +130,8 @@ public class GoodController {
     }
 
     @RequestMapping(value = "/findAllGoodMessage",
-            method = RequestMethod.GET)
+            method = RequestMethod.GET,
+            produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**j
      * @Program: GoodController.java
@@ -140,6 +146,7 @@ public class GoodController {
         List<GoodPackage> goodList = goodService.selectAllGood();
         goodMessage.setDatamessage(goodList);
         goodMessage.setClassName(this.getClass());
+        System.out.println();
         if (goodList.isEmpty() != false) {
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("查询成功");
@@ -165,23 +172,41 @@ public class GoodController {
      **/
     public OBeanBase updateGoodMessage(@RequestBody Good good) {
         int flag = 0;
+        System.out.println("---------+++++++++"+good.getGoodname()+"{{{{{"+good.getGoodid());
         if (good.getGoodstate() == 0 && good.getGoodid()!=null) {
-            flag = goodService.updateGood(good);
-        } else if (good.getGoodstate() == 2) {
+            System.out.println("3333333");
+            GoodPackage oldGood = goodService.selectGoodByPrimaryKey(good.getGoodid());
+            Double oldPrice =  oldGood.getPrice();
+            System.out.println(good.getPrice().equals(oldPrice));
+            if (good.getPrice().equals(oldPrice)){
+                System.out.println("000000");
+                //不更改原价
+                flag = goodService.updateGood(good);
+            }else{
+                //更改原价
+                System.out.println("999999999");
+                good.setOldprice(oldPrice);
+                flag = goodService.updateGood(good);
+            }
+        } else if (good.getGoodstate() == 2 && good.getGoodid()!=null) {
+            System.out.println("77777777");
             goodMessage.setCode(OBeanBase.CHECKFALSECODE);
             goodMessage.setMessage("验证拒绝");
             goodMessage.setDatamessage("管理员下架处理");
         } else if (good.getGoodstate() == 1 && good.getGoodid()!=null) {
-            flag = goodService.updateGood(good);
-        } else if(good.getGoodid()==null){
-            goodMessage.setMessage("未携带商品ID");
-        } else{
-            goodMessage.setMessage("未知错误");
+            System.out.println("55555555");
+            goodMessage.setMessage("更新失败");
+            goodMessage.setDatamessage("商品处于上架状态无法更新");
+        } else {
+            goodMessage.setDatamessage("出错");
+            goodMessage.setMessage("更新失败");
         }
         if (flag>0){
+            System.out.println("更新成功");
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("更新成功");
         }else{
+            System.out.println("更新失败");
             goodMessage.setMessage(OBeanBase.TRUECODE);
             goodMessage.setMessage("更新失败");
         }

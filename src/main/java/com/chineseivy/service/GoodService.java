@@ -3,12 +3,14 @@ package com.chineseivy.service;
 import com.chineseivy.bean.Good;
 import com.chineseivy.bean.GoodExample;
 import com.chineseivy.bean.GoodPackage;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by admin on 2018/4/18
  */
+@Service("goodService")
 public interface GoodService {
     /**
      * @Description 查询商品列表

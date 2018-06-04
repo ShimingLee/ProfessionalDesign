@@ -60,10 +60,10 @@
     INNER JOIN t_shop shop ON t_warehouse.shopId = shop.shopId
     <where>
         <if test="goodid != null">
-          goodId = #{goodid,jdbcType=INTEGER}
+          t_warehouse.goodId = #{goodid,jdbcType=INTEGER}
         </if>
         <if test="shopid != null">
-          and shopId = #{shopid,jdbcType=INTEGER}
+          and t_warehouse.shopId = #{shopid,jdbcType=INTEGER}
         </if>
     </where>
   </select>

@@ -20,6 +20,7 @@ import java.util.List;
 @Service("activityService")
 public class ActivityServiceImp implements ActivityService {
 
+    @Autowired
     private ActivityMapper activityMapper;
 
     public int deleteByPrimaryKey(Integer activityid) {
@@ -33,7 +34,9 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     public ActivityPackage selectByPrimaryKey(Integer activityid) {
+        System.out.println("-------------------------------------------");
         ActivityPackage activity = activityMapper.selectByPrimaryKey(activityid);
+        System.out.println("================================");
         return activity;
     }
 
@@ -43,7 +46,9 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     public List<ActivityPackage> selectAllActivity() {
+        System.out.println("--------------------------------");
         List<ActivityPackage> activityList = activityMapper.selectAllActivity();
+        System.out.println("============================================");
         return activityList;
     }
 }

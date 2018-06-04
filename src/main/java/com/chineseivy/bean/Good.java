@@ -28,7 +28,6 @@ public class Good {
 
     private Integer goodstate;
 
-    private Integer activtiystate;
 
     public Integer getGoodid() {
         return goodid;
@@ -92,14 +91,6 @@ public class Good {
 
     public void setGoodstate(Integer goodstate) {
         this.goodstate = goodstate;
-    }
-
-    public Integer getActivtiystate() {
-        return activtiystate;
-    }
-
-    public void setActivtiystate(Integer activtiystate) {
-        this.activtiystate = activtiystate;
     }
 
     public Integer getRecommendstate() {

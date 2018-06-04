@@ -1,10 +1,12 @@
 package com.chineseivy.service;
 
 import com.chineseivy.bean.Shop;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by admin on 2018/4/18
  */
+@Service("shopService")
 public interface ShopService {
     /**
     * @Program: ShopService.java

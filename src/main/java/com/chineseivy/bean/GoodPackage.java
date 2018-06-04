@@ -14,14 +14,6 @@ public class GoodPackage {
 
     private int goodclassid;
 
-    public int getGoodclassid() {
-        return goodclassid;
-    }
-
-    public void setGoodclassid(int goodclassid) {
-        this.goodclassid = goodclassid;
-    }
-
     private String goodname;
 
     private Double oldprice;
@@ -36,7 +28,6 @@ public class GoodPackage {
 
     private Integer goodstate;
 
-    private Integer activtiystate;
 
     public Integer getGoodid() {
         return goodid;
@@ -44,6 +35,14 @@ public class GoodPackage {
 
     public void setGoodid(Integer goodid) {
         this.goodid = goodid;
+    }
+
+    public int getGoodclassid() {
+        return goodclassid;
+    }
+
+    public void setGoodclassid(int goodclassid) {
+        this.goodclassid = goodclassid;
     }
 
     public String getGoodname() {
@@ -100,14 +99,6 @@ public class GoodPackage {
 
     public void setGoodstate(Integer goodstate) {
         this.goodstate = goodstate;
-    }
-
-    public Integer getActivtiystate() {
-        return activtiystate;
-    }
-
-    public void setActivtiystate(Integer activtiystate) {
-        this.activtiystate = activtiystate;
     }
 
     public Shop getShop() {

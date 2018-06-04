@@ -4,12 +4,14 @@ import com.chineseivy.bean.Warehouse;
 import com.chineseivy.bean.WarehouseExample;
 import com.chineseivy.bean.WarehouseKey;
 import com.chineseivy.bean.WarehousePackage;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by admin on 2018/4/18
  */
+@Service("warehouseService")
 public interface WarehouseService {
     /**
     * @Program: WarehouseService.java

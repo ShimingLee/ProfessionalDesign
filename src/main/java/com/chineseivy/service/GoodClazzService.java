@@ -2,12 +2,14 @@ package com.chineseivy.service;
 
 import com.chineseivy.bean.GoodClass;
 import com.chineseivy.bean.GoodClassPackage;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by admin on 2018/5/25
  */
+@Service("goodClazzService")
 public interface GoodClazzService {
     GoodClassPackage selectGoodClazzByPrimaryKey(Integer goodId);
 

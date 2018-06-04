@@ -19,6 +19,7 @@ import java.util.List;
 @Service("categoriesService")
 public class CategoriesServiceImp implements CategoriesService {
 
+    @Autowired
     private CategoriesMapper categoriesMapper;
 
     public int deleteByPrimaryKey(Integer categoriesid) {

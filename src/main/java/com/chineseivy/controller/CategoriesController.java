@@ -21,6 +21,21 @@ public class CategoriesController {
     private CategoriesService categoriesService;
     private OBeanBase categoriesMessage = new OBeanBase();
 
+    @RequestMapping(value = "/insertCategories",
+            method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public OBeanBase insertCategories(@RequestBody Categories categories){
+        int flag = categoriesService.insertCategories(categories);
+        if (flag>0){
+            categoriesMessage.setMessage("插入成功");
+            categoriesMessage.setDatamessage(flag);
+            categoriesMessage.setClassName(this.getClass().getName());
+        }else {
+            categoriesMessage.setMessage("插入失败");
+        }
+        return categoriesMessage;
+    }
     @RequestMapping(value = "/selectAllCategories",
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})

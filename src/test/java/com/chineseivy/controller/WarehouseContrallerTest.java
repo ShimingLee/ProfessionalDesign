@@ -1,8 +1,8 @@
 package com.chineseivy.controller;
 
-import com.chineseivy.bean.Good;
-import com.chineseivy.bean.GoodPackage;
-import com.chineseivy.service.GoodService;
+import com.chineseivy.bean.WarehouseKey;
+import com.chineseivy.bean.WarehousePackage;
+import com.chineseivy.service.WarehouseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,51 +17,42 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by admin on 2018/5/30
+ * Created by admin on 2018/6/4
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:springmvc-config.xml","classpath:spring-mybatis.xml"})
 //配置事务的回滚,对数据库的增删改都会回滚,便于测试用例的循环利用
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 @WebAppConfiguration
-public class GoodControllerTest {
+public class WarehouseContrallerTest {
+
     @Autowired
-    private GoodService goodService;
-
+    private WarehouseService warehouseService;
     @Test
-    public void insertPicture() {
-
+    public void insertWarehouse() {
     }
 
     @Test
-    public void updateGoodMessage() {
-        Good good = new Good();
-        good.setGoodname("jfdkjfie");
-        goodService.updateGood(good);
+    public void deleteWarehouse() {
     }
 
     @Test
-    public void insertGoodMessage() {
-        Good good = new Good();
-        good.setGoodname("ifoewfje");
-
-        int flag = goodService.insertGood(good);
-        System.out.println("-------------"+flag);
+    public void updateWarehouse() {
     }
 
     @Test
-    public void findGoodMessageByGoodKey() {
+    public void selectAllWarehouse() {
+        List<WarehousePackage> warehouseList = warehouseService.selectAllWarehouse();
+        System.out.println(warehouseList);
     }
 
     @Test
-    public void findAllGoodMessage() {
-        List<GoodPackage> goodPackageList = goodService.selectAllGood();
-        System.out.println(goodPackageList.size());
-    }
-
-    @Test
-    public void deleteGoodMessageByGoodKey() {
+    public void selectWarehouseByWarehouseId() {
+        WarehouseKey warehouseKey = new WarehouseKey();
+        warehouseKey.setGoodid(1);
+        WarehousePackage warehouse = warehouseService.selectByPrimaryKey(warehouseKey);
+        System.out.println(warehouse.getGood().getGoodid());
+        System.out.println(warehouse.getSupplynumber());
     }
 }

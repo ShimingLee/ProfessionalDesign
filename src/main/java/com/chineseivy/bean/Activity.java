@@ -20,7 +20,6 @@ public class Activity {
 
     private Double aim;
 
-    private Double reduce;
 
 
     public Integer getActivityid() {
@@ -102,13 +101,4 @@ public class Activity {
         this.aim = aim;
     }
 
-
-    public Double getReduce() {
-        return reduce;
-    }
-
-
-    public void setReduce(Double reduce) {
-        this.reduce = reduce;
-    }
 }
