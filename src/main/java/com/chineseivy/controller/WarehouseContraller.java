@@ -97,16 +97,21 @@ public class WarehouseContraller {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase updateWarehouse(@RequestBody Warehouse warehouse) {
-         int flag = warehouseService.updateWarehouse(warehouse);
-         if (flag>0) {
-             warehouseMessage.setMessage("更新成功");
-             warehouseMessage.setDatamessage(flag);
-             warehouseMessage.setClassName(this.getClass());
-             warehouseMessage.setCode("10010");
-         }else {
-             warehouseMessage.setMessage("更新失败");
-             warehouseMessage.setClassName(this.getClass());
-         }
+        if (warehouse.getGoodid()!=null && warehouse.getShopid()!=null) {
+            int flag = warehouseService.updateWarehouse(warehouse);
+            if (flag > 0) {
+                warehouseMessage.setMessage("更新成功");
+                warehouseMessage.setDatamessage(flag);
+                warehouseMessage.setClassName(this.getClass());
+                warehouseMessage.setCode("10010");
+            } else {
+                warehouseMessage.setMessage("更新失败");
+                warehouseMessage.setClassName(this.getClass());
+            }
+        }else{
+            warehouseMessage.setCode(OBeanBase.CHECKFALSECODE);
+            warehouseMessage.setMessage("未携带goodID或shopID");
+        }
         return warehouseMessage;
     }
 

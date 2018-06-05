@@ -3,11 +3,10 @@
 <mapper namespace="com.chineseivy.dao.ActivityMapper">
     <resultMap id="BaseResultMap" type="com.chineseivy.bean.Activity">
         <id column="activityId" jdbcType="INTEGER" property="activityid"/>
-        <result column="goodClassId" jdbcType="INTEGER" property="goodclassid"/>
         <result column="activityTheme" jdbcType="VARCHAR" property="activitytheme"/>
         <result column="activityText" jdbcType="VARCHAR" property="activitytext"/>
         <result column="activityImg" jdbcType="VARCHAR" property="activityimg"/>
-        <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
+        <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime" />
         <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
     </resultMap>
@@ -19,29 +18,18 @@
         <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
         <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
-        <association property="goodClass" javaType="com.chineseivy.bean.GoodClass">
-            <id column="goodClassId" jdbcType="INTEGER" property="goodclassid"/>
-            <result column="categoriesId" jdbcType="INTEGER" property="categoriesid"/>
-            <result column="goodClassName" jdbcType="VARCHAR" property="goodclassname"/>
-        </association>
     </resultMap>
-    <sql id="Base_Column_List">
-    activityId, goodClassId, activityTheme, activityText, activityImg, activityStartTime,
-    activityEndTime, aim
-  </sql>
 
     <select id="selectAllActivity" resultMap="packageResultMap">
     SELECT
-    t_activity.*,tgC.*
+    t_activity.*
     FROM t_activity
-    INNER JOIN t_goodClass tgC ON t_activity.goodClassId = tgC.goodClassId
   </select>
 
     <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
       SELECT
-    t_activity.*,tgC.*
+    t_activity.*
     FROM t_activity
-    INNER JOIN t_goodClass tgC ON t_activity.goodClassId = tgC.goodClassId
         where activityId = #{activityid,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -53,9 +41,6 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="activityid != null">
                 activityId,
-            </if>
-            <if test="goodclassid != null">
-                goodClassId,
             </if>
             <if test="activitytheme != null">
                 activityTheme,
@@ -80,9 +65,6 @@
             <if test="activityid != null">
                 #{activityid,jdbcType=INTEGER},
             </if>
-            <if test="goodclassid != null">
-                #{goodclassid,jdbcType=INTEGER},
-            </if>
             <if test="activitytheme != null">
                 #{activitytheme,jdbcType=VARCHAR},
             </if>
@@ -106,9 +88,6 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Activity">
         update t_activity
         <set>
-            <if test="goodclassid != null">
-                goodClassId = #{goodclassid,jdbcType=INTEGER},
-            </if>
             <if test="activitytheme != null">
                 activityTheme = #{activitytheme,jdbcType=VARCHAR},
             </if>

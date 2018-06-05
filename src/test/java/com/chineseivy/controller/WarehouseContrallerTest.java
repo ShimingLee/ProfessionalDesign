@@ -1,5 +1,6 @@
 package com.chineseivy.controller;
 
+import com.chineseivy.bean.Warehouse;
 import com.chineseivy.bean.WarehouseKey;
 import com.chineseivy.bean.WarehousePackage;
 import com.chineseivy.service.WarehouseService;
@@ -21,16 +22,14 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:springmvc-config.xml","classpath:spring-mybatis.xml"})
-//配置事务的回滚,对数据库的增删改都会回滚,便于测试用例的循环利用
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-@Transactional
-@WebAppConfiguration
+
 public class WarehouseContrallerTest {
 
     @Autowired
     private WarehouseService warehouseService;
     @Test
     public void insertWarehouse() {
+
     }
 
     @Test
@@ -39,6 +38,11 @@ public class WarehouseContrallerTest {
 
     @Test
     public void updateWarehouse() {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setShopid(1);
+        warehouse.setGoodid(43);
+        warehouse.setSupplynumber(18);
+        System.out.println(warehouseService.updateWarehouse(warehouse));
     }
 
     @Test

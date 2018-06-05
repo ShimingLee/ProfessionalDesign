@@ -52,6 +52,8 @@ public interface GoodMapper {
 
     List<GoodPackage> selectByGoodState(int goodState);
 
+    int maxId();
 
+    int selectShopId(int goodId);
 
 }

@@ -1,5 +1,6 @@
 package com.chineseivy.service.impl;
 
+import com.chineseivy.bean.Activity;
 import com.chineseivy.bean.ActivityPackage;
 import com.chineseivy.dao.ActivityMapper;
 import org.junit.Test;
@@ -26,6 +27,9 @@ public class ActivityServiceImpTest {
 
     @Test
     public void insertActivity() {
+        Activity activity = new Activity();
+        activity.setActivitytheme("jfeilsfjewo");
+        activityMapper.insertSelective(activity);
     }
 
     @Test

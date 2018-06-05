@@ -38,7 +38,7 @@ public class GoodServiceImp implements GoodService {
      * @return
      */
     public int insertGood(Good good){
-        System.out.println("9999999999999999999     "+good.getGoodname());
+        System.out.println("9999999999999999999     "+good.getGoodname()+"00000000"+good.getPrice());
         int flag = goodMapper.insertSelective(good);
         System.out.println("-----------"+flag);
         return flag;
@@ -79,6 +79,15 @@ public class GoodServiceImp implements GoodService {
         return goodList;
     }
 
+    public int maxId() {
+        int goodId = goodMapper.maxId();
+        return goodId;
+    }
+
+    public int selectShopId(int goodId) {
+        int shopId = goodMapper.selectShopId(goodId);
+        return shopId;
+    }
 
 
 }

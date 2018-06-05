@@ -9,6 +9,7 @@ import com.chineseivy.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +32,14 @@ public class WarehouseServiceImp implements WarehouseService {
     }
 
     public int updateWarehouse(Warehouse warehouse) {
+        int goodId = warehouse.getGoodid();
+        WarehouseKey warehouseKey = new WarehouseKey();
+        warehouseKey.setGoodid(goodId);
+        WarehousePackage warehouseOld = warehouseMapper.selectByPrimaryKey(warehouseKey);
+        int wareNumber = warehouseOld.getWarenumber();
+        int addware = warehouse.getSupplynumber();
+        warehouse.setWarenumber(wareNumber+addware);
+        warehouse.setSupplytime(new Date());
         int flag = warehouseMapper.updateByPrimaryKeySelective(warehouse);
         return flag;
     }

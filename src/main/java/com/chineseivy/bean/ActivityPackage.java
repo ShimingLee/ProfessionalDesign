@@ -2,9 +2,10 @@ package com.chineseivy.bean;
 
 import java.util.Date;
 
+import java.util.Date;
+
 public class ActivityPackage {
     private Integer activityid;
-    private GoodClass goodClass;
     private String activitytheme;
     private String activitytext;
     private String activityimg;
@@ -12,20 +13,12 @@ public class ActivityPackage {
     private Date activityendtime;
     private Double aim;
 
-
     public Integer getActivityid() {
         return activityid;
     }
+
     public void setActivityid(Integer activityid) {
         this.activityid = activityid;
-    }
-
-    public GoodClass getGoodClass() {
-        return goodClass;
-    }
-
-    public void setGoodClass(GoodClass goodClass) {
-        this.goodClass = goodClass;
     }
 
     public String getActivitytheme() {

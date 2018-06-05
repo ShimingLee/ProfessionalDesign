@@ -16,11 +16,7 @@ public class GoodPackage {
 
     private String goodname;
 
-    private Double oldprice;
-
     private Double price;
-
-    private Double activityprice;
 
     private String picture;
 
@@ -53,28 +49,12 @@ public class GoodPackage {
         this.goodname = goodname == null ? null : goodname.trim();
     }
 
-    public Double getOldprice() {
-        return oldprice;
-    }
-
-    public void setOldprice(Double oldprice) {
-        this.oldprice = oldprice;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Double getActivityprice() {
-        return activityprice;
-    }
-
-    public void setActivityprice(Double activityprice) {
-        this.activityprice = activityprice;
     }
 
     public String getPicture() {

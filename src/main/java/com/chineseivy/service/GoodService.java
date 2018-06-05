@@ -59,4 +59,8 @@ public interface GoodService {
     * @returns:
     **/
     List<GoodPackage> selectGoodByGoodState(int goodState);
+
+    int maxId();
+
+    int selectShopId(int goodId);
 }

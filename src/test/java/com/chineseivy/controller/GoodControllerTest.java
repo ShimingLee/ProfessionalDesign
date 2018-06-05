@@ -2,7 +2,9 @@ package com.chineseivy.controller;
 
 import com.chineseivy.bean.Good;
 import com.chineseivy.bean.GoodPackage;
+import com.chineseivy.bean.Warehouse;
 import com.chineseivy.service.GoodService;
+import com.chineseivy.service.WarehouseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,13 +25,11 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:springmvc-config.xml","classpath:spring-mybatis.xml"})
-//配置事务的回滚,对数据库的增删改都会回滚,便于测试用例的循环利用
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-@Transactional
-@WebAppConfiguration
 public class GoodControllerTest {
     @Autowired
     private GoodService goodService;
+    @Autowired
+    private WarehouseService warehouseService;
 
     @Test
     public void insertPicture() {
@@ -38,6 +39,7 @@ public class GoodControllerTest {
     @Test
     public void updateGoodMessage() {
         Good good = new Good();
+        good.setGoodid(5);
         good.setGoodname("jfdkjfie");
         goodService.updateGood(good);
     }
@@ -45,10 +47,18 @@ public class GoodControllerTest {
     @Test
     public void insertGoodMessage() {
         Good good = new Good();
-        good.setGoodname("ifoewfje");
-
+        good.setGoodname("lsm");
+        good.setPrice(30.1);
         int flag = goodService.insertGood(good);
-        System.out.println("-------------"+flag);
+        int goodId = goodService.maxId();
+        int shopId = goodService.selectShopId(goodId);
+        Warehouse warehouse = new Warehouse();
+        warehouse.setGoodid(goodId);
+        warehouse.setShopid(shopId);
+        warehouse.setSupplytime(new Date());
+        warehouseService.insertWarehouse(warehouse);
+        System.out.println("-------------"+flag+"-----goodId"+goodId+"-----shopId"+shopId);
+
     }
 
     @Test

@@ -2,11 +2,11 @@ package com.chineseivy.bean;
 
 import java.util.Date;
 
+import java.util.Date;
+
 public class Activity {
 
     private Integer activityid;
-
-    private Integer goodclassid;
 
     private String activitytheme;
 
@@ -30,17 +30,6 @@ public class Activity {
     public void setActivityid(Integer activityid) {
         this.activityid = activityid;
     }
-
-
-    public Integer getGoodclassid() {
-        return goodclassid;
-    }
-
-
-    public void setGoodclassid(Integer goodclassid) {
-        this.goodclassid = goodclassid;
-    }
-
 
     public String getActivitytheme() {
         return activitytheme;

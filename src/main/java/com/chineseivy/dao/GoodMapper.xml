@@ -6,11 +6,9 @@
     <result column="shopId" jdbcType="INTEGER" property="shopid" />
     <result column="recommendState" jdbcType="INTEGER" property="recommendstate" />
     <result column="goodName" jdbcType="VARCHAR" property="goodname" />
-    <result column="oldPrice" jdbcType="DOUBLE" property="oldprice" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="activityId" jdbcType="INTEGER" property="activityid" />
     <result column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
-    <result column="activityPrice" jdbcType="DOUBLE" property="activityprice" />
     <result column="picture" jdbcType="VARCHAR" property="picture" />
     <result column="standard" jdbcType="VARCHAR" property="standard" />
     <result column="goodState" jdbcType="INTEGER" property="goodstate" />
@@ -20,14 +18,12 @@
     <id column="goodId" jdbcType="INTEGER" property="goodid" />
     <result column="recommendState" jdbcType="INTEGER" property="recommendstate" />
     <result column="goodName" jdbcType="VARCHAR" property="goodname" />
-    <result column="oldPrice" jdbcType="DOUBLE" property="oldprice" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
     <result column="activityPrice" jdbcType="DOUBLE" property="activityprice" />
     <result column="picture" jdbcType="VARCHAR" property="picture" />
     <result column="standard" jdbcType="VARCHAR" property="standard" />
     <result column="goodState" jdbcType="INTEGER" property="goodstate" />
-    <result column="activtiyState" jdbcType="INTEGER" property="activtiystate" />
     <association property="shop" javaType="com.chineseivy.bean.Shop">
       <id column="shopId" jdbcType="INTEGER" property="shopid" />
       <result column="shopName" jdbcType="VARCHAR" property="shopname" />
@@ -40,7 +36,6 @@
     </association>
     <association property="activity" javaType="com.chineseivy.bean.Activity">
       <id column="activityId" jdbcType="INTEGER" property="activityid" />
-      <result column="goodClassId" jdbcType="INTEGER" property="goodclassid" />
       <result column="activityTheme" jdbcType="VARCHAR" property="activitytheme" />
       <result column="activityText" jdbcType="VARCHAR" property="activitytext" />
       <result column="activityImg" jdbcType="VARCHAR" property="activityimg" />
@@ -87,6 +82,7 @@
     delete from t_good
     where goodId = #{goodid,jdbcType=INTEGER}
   </delete>
+
   <insert id="insertSelective" parameterType="com.chineseivy.bean.Good">
     insert into t_good
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -102,9 +98,6 @@
       <if test="goodname != null">
         goodName,
       </if>
-      <if test="oldprice != null">
-        oldPrice,
-      </if>
       <if test="price != null">
         price,
       </if>
@@ -113,9 +106,6 @@
       </if>
       <if test="goodclassid != null">
         goodClassId,
-      </if>
-      <if test="activityprice != null">
-        activityprice,
       </if>
       <if test="picture != null">
         picture,
@@ -140,9 +130,6 @@
       <if test="goodname != null">
         #{goodname,jdbcType=VARCHAR},
       </if>
-      <if test="oldprice != null">
-        #{oldprice,jdbcType=DOUBLE},
-      </if>
       <if test="price != null">
         #{price,jdbcType=DOUBLE},
       </if>
@@ -151,9 +138,6 @@
       </if>
       <if test="goodclassid != null">
         #{goodclassid,jdbcType=INTEGER},
-      </if>
-      <if test="activityprice != null">
-        #{activityprice,jdbcType=DOUBLE},
       </if>
       <if test="picture != null">
         #{picture,jdbcType=VARCHAR},
@@ -166,7 +150,12 @@
       </if>
     </trim>
   </insert>
-
+  <select id="maxId" resultType="java.lang.Integer">
+    select max(goodId) from t_good
+  </select>
+  <select id="selectShopId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT shopId FROM t_good WHERE goodId =#{goodid,jdbcType=INTEGER}
+  </select>
   <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Good">
     update t_good
     <set>
@@ -179,9 +168,6 @@
       <if test="goodname != null">
         goodName = #{goodname,jdbcType=VARCHAR},
       </if>
-      <if test="oldprice != null">
-        oldPrice = #{oldprice,jdbcType=DOUBLE},
-      </if>
       <if test="price != null">
         price = #{price,jdbcType=DOUBLE},
       </if>
@@ -190,9 +176,6 @@
       </if>
       <if test="goodclassid != null">
         goodClassId = #{goodclassid,jdbcType=INTEGER},
-      </if>
-      <if test="activityprice != null">
-        activityPrice = #{activityprice,jdbcType=DOUBLE},
       </if>
       <if test="picture != null">
         picture = #{picture,jdbcType=VARCHAR},

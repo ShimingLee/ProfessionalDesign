@@ -1,10 +1,9 @@
 package com.chineseivy.controller;
 
-import com.chineseivy.bean.ActivityPackage;
-import com.chineseivy.bean.Good;
-import com.chineseivy.bean.GoodPackage;
+import com.chineseivy.bean.*;
 import com.chineseivy.service.ActivityService;
 import com.chineseivy.service.GoodService;
+import com.chineseivy.service.WarehouseService;
 import com.chineseivy.util.OBeanBase;
 import com.wordnik.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,9 @@ public class GoodController {
     @Autowired
     @Qualifier("goodService")
     private GoodService goodService;
+    @Autowired
+    @Qualifier("warehouseService")
+    private WarehouseService warehouseService;
 
     private OBeanBase goodMessage = new OBeanBase();
     @RequestMapping(value = "/insertPicture",
@@ -90,7 +94,14 @@ public class GoodController {
      **/
     public OBeanBase insertGoodMessage(@RequestBody Good good) {
         System.out.println(good.getGoodname());
-        int flag = goodService.insertGood(good);
+        goodService.insertGood(good);
+        int goodId = goodService.maxId();
+        int shopId = goodService.selectShopId(goodId);
+        Warehouse warehouse = new Warehouse();
+        warehouse.setGoodid(goodId);
+        warehouse.setShopid(shopId);
+        warehouse.setSupplytime(new Date());
+        int flag = warehouseService.insertWarehouse(warehouse);
         if (flag > 0) {
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("插入成功");
@@ -185,7 +196,6 @@ public class GoodController {
             }else{
                 //更改原价
                 System.out.println("999999999");
-                good.setOldprice(oldPrice);
                 flag = goodService.updateGood(good);
             }
         } else if (good.getGoodstate() == 2 && good.getGoodid()!=null) {
