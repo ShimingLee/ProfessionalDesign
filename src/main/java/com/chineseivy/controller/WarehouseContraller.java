@@ -1,9 +1,6 @@
 package com.chineseivy.controller;
 
-import com.chineseivy.bean.Warehouse;
-import com.chineseivy.bean.WarehouseExample;
-import com.chineseivy.bean.WarehouseKey;
-import com.chineseivy.bean.WarehousePackage;
+import com.chineseivy.bean.*;
 import com.chineseivy.service.WarehouseService;
 import com.chineseivy.util.OBeanBase;
 import com.wordnik.swagger.annotations.Api;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -43,11 +41,8 @@ public class WarehouseContraller {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase insertWarehouse(@RequestBody Warehouse warehouse) {
-        WarehouseKey warehouseKey = new WarehouseKey();
         if(warehouse.getGoodid()!=null&&warehouse.getShopid()!=null){
-            warehouseKey.setGoodid(warehouse.getGoodid());
-            warehouseKey.setShopid(warehouse.getShopid());
-            if (warehouseService.selectByPrimaryKey(warehouseKey)!=null){
+            if (warehouseService.selectByPrimaryKey(warehouse.getGoodid())!=null){
                 warehouseMessage.setMessage("添加失败");
                 warehouseMessage.setDatamessage("已有该商品信息");
             }else {
@@ -93,11 +88,12 @@ public class WarehouseContraller {
      * @Description: 更新库存信息
      * @Author: Shiming Lee
      * @Create: 2018/5/24 15:28
-     * @params: [warehouseId, warehouseExample]
+     * @params: [warehouse]
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase updateWarehouse(@RequestBody Warehouse warehouse) {
-        if (warehouse.getGoodid()!=null && warehouse.getShopid()!=null) {
+        System.out.println("warehouse.goodId"+warehouse.getGoodid());
+        if (warehouse.getGoodid()!=null) {
             int flag = warehouseService.updateWarehouse(warehouse);
             if (flag > 0) {
                 warehouseMessage.setMessage("更新成功");
@@ -110,7 +106,7 @@ public class WarehouseContraller {
             }
         }else{
             warehouseMessage.setCode(OBeanBase.CHECKFALSECODE);
-            warehouseMessage.setMessage("未携带goodID或shopID");
+            warehouseMessage.setMessage("未携带goodID");
         }
         return warehouseMessage;
     }
@@ -130,6 +126,7 @@ public class WarehouseContraller {
      **/
     public OBeanBase selectAllWarehouse() {
         List<WarehousePackage> warehouseList = warehouseService.selectAllWarehouse();
+
         warehouseMessage.setCode("10010");
         warehouseMessage.setDatamessage(warehouseList);
         warehouseMessage.setMessage("查询成功");
@@ -137,7 +134,7 @@ public class WarehouseContraller {
     }
 
     @RequestMapping(value = "/selectWarehouseByWarehouseId",
-            method = RequestMethod.PUT,
+            method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     /**
@@ -146,19 +143,19 @@ public class WarehouseContraller {
      * @Description: 按仓库ID查询仓库信息
      * @Author: Shiming Lee
      * @Create: 2018/5/24 15:28
-     * @params: [warehouseId]
+     * @params: [goodId]
      * @returns: com.chineseivy.util.OBeanBase
      **/
-    public OBeanBase selectWarehouseByWarehouseId(@RequestBody WarehouseKey warehouseKey) {
-        WarehousePackage warehouse = warehouseService.selectByPrimaryKey(warehouseKey);
+    public OBeanBase selectWarehouseByWarehouseId(@RequestParam int goodId) {
+        WarehousePackage warehouse = warehouseService.selectByPrimaryKey(goodId);
         if (warehouse.getGood().getGoodname()!=null) {
             warehouseMessage.setMessage("查询成功");
-            warehouseMessage.setClassName(this.getClass());
+            warehouseMessage.setClassName(this.getClass().getName());
             warehouseMessage.setDatamessage(warehouse);
             warehouseMessage.setCode("10010");
         }else {
             warehouseMessage.setMessage("查询失败");
-            warehouseMessage.setClassName(this.getClass());
+            warehouseMessage.setClassName(this.getClass().getName());
         }
         return warehouseMessage;
 

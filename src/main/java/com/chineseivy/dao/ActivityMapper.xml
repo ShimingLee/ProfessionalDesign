@@ -18,6 +18,16 @@
         <result column="activityStartTime" jdbcType="TIMESTAMP" property="activitystarttime"/>
         <result column="activityEndTime" jdbcType="TIMESTAMP" property="activityendtime"/>
         <result column="aim" jdbcType="DOUBLE" property="aim"/>
+        <!--<collection property="goods" javaType="ArrayList" column="activityId" ofType="com.chineseivy.bean.GoodPackage"-->
+                    <!--select="com.chineseivy.dao.GoodMapper.selectByActivityId" fetchType="eager">-->
+            <!--<id column="goodId" jdbcType="INTEGER" property="goodid" />-->
+            <!--<result column="recommendState" jdbcType="INTEGER" property="recommendstate" />-->
+            <!--<result column="goodName" jdbcType="VARCHAR" property="goodname" />-->
+            <!--<result column="price" jdbcType="DOUBLE" property="price" />-->
+            <!--<result column="picture" jdbcType="VARCHAR" property="picture" />-->
+            <!--<result column="standard" jdbcType="VARCHAR" property="standard" />-->
+            <!--<result column="goodState" jdbcType="INTEGER" property="goodstate" />-->
+        <!--</collection>-->
     </resultMap>
 
     <select id="selectAllActivity" resultMap="packageResultMap">
@@ -25,6 +35,12 @@
     t_activity.*
     FROM t_activity
   </select>
+    <select id="selectValidActivity" resultMap="packageResultMap" parameterType="java.util.Date">
+        SELECT
+        t_activity.*
+        FROM t_activity
+        WHERE activityEndTime>=#{activityEndTime,jdbcType=TIMESTAMP}
+    </select>
 
     <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
       SELECT

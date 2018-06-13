@@ -24,7 +24,6 @@ public class GoodPackage {
 
     private Integer goodstate;
 
-
     public Integer getGoodid() {
         return goodid;
     }

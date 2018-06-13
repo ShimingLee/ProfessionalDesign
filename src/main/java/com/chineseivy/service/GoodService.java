@@ -60,7 +60,18 @@ public interface GoodService {
     **/
     List<GoodPackage> selectGoodByGoodState(int goodState);
 
+    /**
+     * 选择id中最大的
+     * @return
+     */
     int maxId();
 
+    /**
+     * 选择商家ID
+     * @param goodId
+     * @return
+     */
     int selectShopId(int goodId);
+
+    int updateGoodStateByAdmin(int goodId,int goodState);
 }

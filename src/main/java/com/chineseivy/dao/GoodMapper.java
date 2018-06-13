@@ -36,6 +36,7 @@ public interface GoodMapper {
      */
     GoodPackage selectByPrimaryKey(Integer goodid);
 
+    Good selectByActivityId(Integer activityid);
     /**
      * @Decription 选择全部商品
      * @return 返回集合
@@ -50,10 +51,12 @@ public interface GoodMapper {
      */
     int updateByPrimaryKeySelective(Good record);
 
-    List<GoodPackage> selectByGoodState(int goodState);
+    List<Good> selectGoodByActivityId(int activityid);
 
     int maxId();
 
     int selectShopId(int goodId);
+
+    int updateGoodStateByAdmin(int goodId,int goodState);
 
 }

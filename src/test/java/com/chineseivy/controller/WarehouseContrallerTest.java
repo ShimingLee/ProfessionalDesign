@@ -40,7 +40,7 @@ public class WarehouseContrallerTest {
     public void updateWarehouse() {
         Warehouse warehouse = new Warehouse();
         warehouse.setShopid(1);
-        warehouse.setGoodid(43);
+        warehouse.setGoodid(49);
         warehouse.setSupplynumber(18);
         System.out.println(warehouseService.updateWarehouse(warehouse));
     }
@@ -48,14 +48,14 @@ public class WarehouseContrallerTest {
     @Test
     public void selectAllWarehouse() {
         List<WarehousePackage> warehouseList = warehouseService.selectAllWarehouse();
-        System.out.println(warehouseList);
+        for (WarehousePackage warehouse:warehouseList) {
+            System.out.println(warehouse.getFormatsupplytime());
+        }
     }
 
     @Test
     public void selectWarehouseByWarehouseId() {
-        WarehouseKey warehouseKey = new WarehouseKey();
-        warehouseKey.setGoodid(1);
-        WarehousePackage warehouse = warehouseService.selectByPrimaryKey(warehouseKey);
+        WarehousePackage warehouse = warehouseService.selectByPrimaryKey(1);
         System.out.println(warehouse.getGood().getGoodid());
         System.out.println(warehouse.getSupplynumber());
     }

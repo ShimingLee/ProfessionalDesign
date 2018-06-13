@@ -4,6 +4,7 @@ import com.chineseivy.bean.Activity;
 import com.chineseivy.bean.ActivityPackage;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,4 +21,6 @@ public interface ActivityService {
     int updateByPrimaryKeySelective(Activity record);
 
     List<ActivityPackage> selectAllActivity();
+
+    List<ActivityPackage> selectValidActivity();
 }

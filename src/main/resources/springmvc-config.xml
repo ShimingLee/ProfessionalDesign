@@ -40,11 +40,11 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <!-- 内存中的最大值 -->
         <property name="maxInMemorySize" value="4096"/>
-
     </bean>
-
-
-
-
-
+    <!-- 跨域配置 -->
+    <mvc:cors>
+        <mvc:mapping path="/**" allowed-origins="*" allow-credentials="true" max-age="1800" allowed-methods="GET,POST,OPTIONS,DELETE,PUT"/>
+    </mvc:cors>
+    <!--配置访问静态文件-->
+    <mvc:default-servlet-handler/>
 </beans>

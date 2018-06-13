@@ -9,6 +9,7 @@
   <display-name>Archetype Created Web Application</display-name>
 
 
+
     <!-- 指定spring的配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -61,7 +62,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
+        <welcome-file>/view/index.html</welcome-file>
     </welcome-file-list>
 
 

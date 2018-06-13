@@ -9,6 +9,7 @@ import com.chineseivy.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,7 @@ public class WarehouseServiceImp implements WarehouseService {
     }
 
     public int updateWarehouse(Warehouse warehouse) {
-        int goodId = warehouse.getGoodid();
-        WarehouseKey warehouseKey = new WarehouseKey();
-        warehouseKey.setGoodid(goodId);
-        WarehousePackage warehouseOld = warehouseMapper.selectByPrimaryKey(warehouseKey);
+        WarehousePackage warehouseOld = warehouseMapper.selectByPrimaryKey(warehouse.getGoodid());
         int wareNumber = warehouseOld.getWarenumber();
         int addware = warehouse.getSupplynumber();
         warehouse.setWarenumber(wareNumber+addware);
@@ -46,11 +44,18 @@ public class WarehouseServiceImp implements WarehouseService {
 
     public List<WarehousePackage> selectAllWarehouse() {
         List<WarehousePackage> warehouseList = warehouseMapper.selectAllWarehouse();
+        SimpleDateFormat simpleFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        for (WarehousePackage warehousePackage:warehouseList) {
+            warehousePackage.setFormatsupplytime(simpleFormatter.format(warehousePackage.getSupplytime()));
+        }
         return warehouseList;
     }
 
-    public WarehousePackage selectByPrimaryKey(WarehouseKey warehouseKey) {
-        WarehousePackage warehouse = warehouseMapper.selectByPrimaryKey(warehouseKey);
+    public WarehousePackage selectByPrimaryKey(int goodId) {
+        System.out.println("selectByPrimaryKey"+goodId);
+        WarehousePackage warehouse = warehouseMapper.selectByPrimaryKey(goodId);
+        SimpleDateFormat simpleFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        warehouse.setFormatsupplytime(simpleFormatter.format(warehouse.getSupplytime()));
         return warehouse;
     }
 }

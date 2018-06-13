@@ -97,14 +97,6 @@ public class Good {
         this.activityid = activityid;
     }
 
-    public Integer getGoodClassid() {
-        return goodclassid;
-    }
-
-    public void setGoodClassid(Integer goodClassid) {
-        this.goodclassid = goodclassid;
-    }
-
     public Integer getShopid() {
         return shopid;
     }

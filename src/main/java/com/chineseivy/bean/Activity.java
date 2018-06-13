@@ -3,6 +3,7 @@ package com.chineseivy.bean;
 import java.util.Date;
 
 import java.util.Date;
+import java.util.List;
 
 public class Activity {
 
@@ -20,12 +21,19 @@ public class Activity {
 
     private Double aim;
 
+    private List<Good> goods;
 
+    public List<Good> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(List<Good> goods) {
+        this.goods = goods;
+    }
 
     public Integer getActivityid() {
         return activityid;
     }
-
 
     public void setActivityid(Integer activityid) {
         this.activityid = activityid;

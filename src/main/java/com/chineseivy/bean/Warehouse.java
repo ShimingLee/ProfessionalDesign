@@ -2,10 +2,11 @@ package com.chineseivy.bean;
 
 import java.util.Date;
 
-public class Warehouse extends WarehouseKey {
+public class Warehouse  {
+    private Integer goodid;
+    private Integer shopid;
     private Date supplytime;
     private Integer supplynumber;
-
     private Integer warenumber;
 
     public Date getSupplytime() {
@@ -32,23 +33,19 @@ public class Warehouse extends WarehouseKey {
         this.warenumber = warenumber;
     }
 
-    @Override
     public Integer getGoodid() {
-        return super.getGoodid();
+        return goodid;
     }
 
-    @Override
     public void setGoodid(Integer goodid) {
-        super.setGoodid(goodid);
+        this.goodid = goodid;
     }
 
-    @Override
     public Integer getShopid() {
-        return super.getShopid();
+        return shopid;
     }
 
-    @Override
     public void setShopid(Integer shopid) {
-        super.setShopid(shopid);
+        this.shopid = shopid;
     }
 }

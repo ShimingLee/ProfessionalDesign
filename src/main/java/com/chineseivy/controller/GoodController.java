@@ -1,23 +1,21 @@
 package com.chineseivy.controller;
 
-import com.chineseivy.bean.*;
-import com.chineseivy.service.ActivityService;
+import com.chineseivy.bean.Good;
+import com.chineseivy.bean.GoodPackage;
+import com.chineseivy.bean.Warehouse;
 import com.chineseivy.service.GoodService;
 import com.chineseivy.service.WarehouseService;
 import com.chineseivy.util.OBeanBase;
-import com.wordnik.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -46,30 +44,48 @@ public class GoodController {
     private WarehouseService warehouseService;
 
     private OBeanBase goodMessage = new OBeanBase();
+
     @RequestMapping(value = "/insertPicture",
             method = RequestMethod.POST)
     @ResponseBody
     /**
-    * @Program: GoodController.java
-    * @Method: insertPicture
-    * @Description: 插入新的图片信息
-    * @Author: Shiming Lee
-    * @Create: 2018/6/2 16:00
-    * @params: [picture, request]
-    * @returns: com.chineseivy.util.OBeanBase
-    **/
+     * @Program: GoodController.java
+     * @Method: insertPicture
+     * @Description: 插入新的图片信息
+     * @Author: Shiming Lee
+     * @Create: 2018/6/2 16:00
+     * @params: [picture, request]
+     * @returns: com.chineseivy.util.OBeanBase
+     **/
     public OBeanBase insertPicture(@RequestParam(value = "picture") MultipartFile picture, HttpServletRequest request) {
         OBeanBase fileMessage = new OBeanBase();
         String filePath = "";
+        String referencePath = "";
         if (picture.isEmpty()) {
             System.out.println("文件未上传");
-        }else {
+        } else {
             String originalPictureName = picture.getOriginalFilename();
             String suffix = originalPictureName.substring(originalPictureName.lastIndexOf("."));
-            String fileName = request.getSession().getServletContext().getRealPath("/")+UUID.randomUUID().toString() + suffix;
-            filePath = fileName;
+            String fileName = UUID.randomUUID().toString() + suffix;
+            filePath = request.getSession().getServletContext().getRealPath("/") + "\\imgUpload\\good\\" + fileName;
+            referencePath = "imgUpload/good/" + fileName;
             File savePicture = new File(filePath);
-            fileMessage.setMessage(filePath);
+            if (!savePicture.getParentFile().exists()) {
+                boolean result = savePicture.getParentFile().mkdirs();
+                if (!result) {
+                    System.out.println("目录创建失败");
+                    fileMessage.setMessage("目录创建失败");
+                    fileMessage.setDatamessage("目录创建失败");
+                } else {
+                    System.out.println("目录创建成功");
+                    fileMessage.setMessage("目录创建成功");
+                    fileMessage.setDatamessage(referencePath);
+                }
+            } else {
+                fileMessage.setMessage("文件夹目录已存在");
+                fileMessage.setDatamessage(referencePath);
+            }
+
             try {
                 picture.transferTo(savePicture);
             } catch (IOException e) {
@@ -93,23 +109,31 @@ public class GoodController {
      * @returns: com.chineseivy.util.OBeanBase
      **/
     public OBeanBase insertGoodMessage(@RequestBody Good good) {
-        System.out.println(good.getGoodname());
-        goodService.insertGood(good);
-        int goodId = goodService.maxId();
-        int shopId = goodService.selectShopId(goodId);
-        Warehouse warehouse = new Warehouse();
-        warehouse.setGoodid(goodId);
-        warehouse.setShopid(shopId);
-        warehouse.setSupplytime(new Date());
-        int flag = warehouseService.insertWarehouse(warehouse);
-        if (flag > 0) {
-            goodMessage.setCode(OBeanBase.TRUECODE);
-            goodMessage.setMessage("插入成功");
-            goodMessage.setDatamessage(flag);
-        } else {
-            goodMessage.setMessage("插入失败");
+        int flag = 0;
+        if (StringUtils.isEmpty(good.getGoodname())) {
+            goodMessage.setMessage("商品名为空");
             goodMessage.setCode(OBeanBase.FALSECODE);
             goodMessage.setDatamessage(flag);
+        } else {
+            System.out.println(good.getGoodname());
+            goodService.insertGood(good);
+            int goodId = goodService.maxId();
+            int shopId = goodService.selectShopId(goodId);
+            Warehouse warehouse = new Warehouse();
+            warehouse.setGoodid(goodId);
+            warehouse.setShopid(shopId);
+            warehouse.setSupplytime(new Date());
+            flag = warehouseService.insertWarehouse(warehouse);
+            System.out.println("goodController:flag=" + flag);
+            if (flag > 0) {
+                goodMessage.setCode(OBeanBase.TRUECODE);
+                goodMessage.setMessage("插入成功");
+                goodMessage.setDatamessage(flag);
+            } else {
+                goodMessage.setMessage("插入失败");
+                goodMessage.setCode(OBeanBase.FALSECODE);
+                goodMessage.setDatamessage(flag);
+            }
         }
         return goodMessage;
     }
@@ -129,11 +153,11 @@ public class GoodController {
      **/
     public OBeanBase findGoodMessageByGoodKey(@RequestParam int goodId) {
         GoodPackage good = goodService.selectGoodByPrimaryKey(goodId);
-        if (good.getGoodid()!=null){
+        if (good.getGoodid() != null) {
             goodMessage.setDatamessage(good);
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("查询成功");
-        }else {
+        } else {
             goodMessage.setCode(OBeanBase.FALSECODE);
             goodMessage.setMessage("查询失败");
         }
@@ -158,7 +182,7 @@ public class GoodController {
         goodMessage.setDatamessage(goodList);
         goodMessage.setClassName(this.getClass());
         System.out.println();
-        if (goodList.isEmpty() != false) {
+        if (goodList.isEmpty() != true) {
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("查询成功");
         } else {
@@ -183,42 +207,24 @@ public class GoodController {
      **/
     public OBeanBase updateGoodMessage(@RequestBody Good good) {
         int flag = 0;
-        System.out.println("---------+++++++++"+good.getGoodname()+"{{{{{"+good.getGoodid());
-        if (good.getGoodstate() == 0 && good.getGoodid()!=null) {
-            System.out.println("3333333");
-            GoodPackage oldGood = goodService.selectGoodByPrimaryKey(good.getGoodid());
-            Double oldPrice =  oldGood.getPrice();
-            System.out.println(good.getPrice().equals(oldPrice));
-            if (good.getPrice().equals(oldPrice)){
-                System.out.println("000000");
-                //不更改原价
-                flag = goodService.updateGood(good);
-            }else{
-                //更改原价
-                System.out.println("999999999");
-                flag = goodService.updateGood(good);
-            }
-        } else if (good.getGoodstate() == 2 && good.getGoodid()!=null) {
-            System.out.println("77777777");
-            goodMessage.setCode(OBeanBase.CHECKFALSECODE);
-            goodMessage.setMessage("验证拒绝");
-            goodMessage.setDatamessage("管理员下架处理");
-        } else if (good.getGoodstate() == 1 && good.getGoodid()!=null) {
-            System.out.println("55555555");
-            goodMessage.setMessage("更新失败");
-            goodMessage.setDatamessage("商品处于上架状态无法更新");
-        } else {
+        System.out.println("---------+++++++++" + good.getGoodname() + "{{{{{" + good.getGoodid());
+        if (good.getGoodid() != null) {
+            flag = goodService.updateGood(good);
+        }else {
             goodMessage.setDatamessage("出错");
             goodMessage.setMessage("更新失败");
+            return goodMessage;
         }
-        if (flag>0){
+        if (flag > 0) {
             System.out.println("更新成功");
             goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("更新成功");
-        }else{
+            goodMessage.setDatamessage(flag);
+        } else {
             System.out.println("更新失败");
-            goodMessage.setMessage(OBeanBase.TRUECODE);
+            goodMessage.setCode(OBeanBase.TRUECODE);
             goodMessage.setMessage("更新失败");
+            goodMessage.setDatamessage(flag);
         }
         return goodMessage;
     }
@@ -235,7 +241,7 @@ public class GoodController {
      * @params: [goodId]
      * @returns: com.chineseivy.util.OBeanBase
      **/
-    public OBeanBase deleteGoodMessageByGoodKey(@RequestParam int goodId) {
+    public OBeanBase deleteGoodMessageByGoodKey(@RequestParam(value = "goodId") int goodId) {
         int flag = goodService.deleteGoodByPrimaryKey(goodId);
         goodMessage.setDatamessage(flag);
         goodMessage.setClassName(this.getClass());
@@ -249,5 +255,28 @@ public class GoodController {
         return goodMessage;
     }
 
-
+    @RequestMapping(value = "/changeGoodStateByAdmin",
+            method = RequestMethod.PUT)
+    @ResponseBody
+    /**
+     * @Program: GoodController.java
+     * @Method: changeGoodStateByAdmin
+     * @Description: 管理员修改商品状态
+     * @Author: Shiming Lee
+     * @Create: 2018/6/11 14:16
+     * @params: [goodid, goodstate]
+     * @returns: com.chineseivy.util.OBeanBase
+     **/
+    public OBeanBase changeGoodStateByAdmin(@RequestParam(value = "goodid") int goodid, @RequestParam(value = "goodstate") int goodstate) {
+        int flag = goodService.updateGoodStateByAdmin(goodid, goodstate);
+        if (flag > 0) {
+            goodMessage.setMessage("管理员修改成功");
+            goodMessage.setDatamessage(flag);
+            goodMessage.setCode(OBeanBase.TRUECODE);
+        } else {
+            goodMessage.setMessage("修改失败");
+            goodMessage.setCode(OBeanBase.FALSECODE);
+        }
+        return goodMessage;
+    }
 }

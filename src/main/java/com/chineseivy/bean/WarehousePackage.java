@@ -10,6 +10,15 @@ public class WarehousePackage {
     private Date supplytime;
     private Integer supplynumber;
     private Integer warenumber;
+    private String formatsupplytime;
+
+    public String getFormatsupplytime() {
+        return formatsupplytime;
+    }
+
+    public void setFormatsupplytime(String formatsupplytime) {
+        this.formatsupplytime = formatsupplytime;
+    }
 
     public Good getGood() {
         return good;

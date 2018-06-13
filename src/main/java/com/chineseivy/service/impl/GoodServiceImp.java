@@ -52,7 +52,12 @@ public class GoodServiceImp implements GoodService {
     public int updateGood(Good good){
         System.out.println(good.getGoodname());
         int flag = goodMapper.updateByPrimaryKeySelective(good);
+        System.out.println("update:"+flag);
         return  flag;
+    }
+
+    public List<GoodPackage> selectGoodByGoodState(int goodState) {
+        return null;
     }
 
     /**
@@ -65,20 +70,6 @@ public class GoodServiceImp implements GoodService {
         return flag;
     }
 
-    /**
-    * @Program: GoodServiceImp.java
-    * @Method:
-    * @Description: 查询所有商品下架状态（用于更新和修改商品信息时使用）
-    * @Author: Shiming Lee
-    * @Create: 2018/5/25 20:27
-    * @params:
-    * @returns:
-    **/
-    public List<GoodPackage> selectGoodByGoodState(int goodState){
-        List<GoodPackage> goodList = goodMapper.selectByGoodState(goodState);
-        return goodList;
-    }
-
     public int maxId() {
         int goodId = goodMapper.maxId();
         return goodId;
@@ -89,5 +80,9 @@ public class GoodServiceImp implements GoodService {
         return shopId;
     }
 
+    public int updateGoodStateByAdmin(int goodId,int goodState){
+        int flag = goodMapper.updateGoodStateByAdmin(goodId,goodState);
+        return flag;
+    }
 
 }

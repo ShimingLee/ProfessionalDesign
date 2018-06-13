@@ -3,6 +3,7 @@ package com.chineseivy.bean;
 import java.util.Date;
 
 import java.util.Date;
+import java.util.List;
 
 public class ActivityPackage {
     private Integer activityid;
@@ -12,6 +13,33 @@ public class ActivityPackage {
     private Date activitystarttime;
     private Date activityendtime;
     private Double aim;
+    private List<GoodPackage> goods;
+    private String formatactivitystarttime;
+    private String formatactivityendtime;
+
+    public String getFormatactivitystarttime() {
+        return formatactivitystarttime;
+    }
+
+    public void setFormatactivitystarttime(String formatactivitystarttime) {
+        this.formatactivitystarttime = formatactivitystarttime;
+    }
+
+    public String getFormatactivityendtime() {
+        return formatactivityendtime;
+    }
+
+    public void setFormatactivityendtime(String formatactivityendtime) {
+        this.formatactivityendtime = formatactivityendtime;
+    }
+
+    public List<GoodPackage> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(List<GoodPackage> goods) {
+        this.goods = goods;
+    }
 
     public Integer getActivityid() {
         return activityid;

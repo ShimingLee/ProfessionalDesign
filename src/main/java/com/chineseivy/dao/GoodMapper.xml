@@ -50,6 +50,10 @@
       </association>
   </resultMap>
 
+  <select id="selectByActivityId" parameterType="int" resultMap="packageResultMap">
+    select * from t_good
+    where activityId = #{activityid,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="int" resultMap="packageResultMap">
     select 'true' as QUERYID,
       t_good.*,a.*,tgC.*,shop.*
@@ -60,14 +64,11 @@
     where goodId = #{goodid,jdbcType=INTEGER}
   </select>
   <!--通过商品状态查找商品-->
-  <select id="selectByGoodState" parameterType="int" resultMap="packageResultMap">
+  <select id="selectGoodByActivityId" parameterType="int" resultMap="BaseResultMap">
     select 'true' as QUERYID,
-    t_good.*,a.*,tgC.*,shop.*
+    t_good.*
     from t_good
-    INNER JOIN t_goodClass tgC ON t_good.goodClassId = tgC.goodClassId
-    INNER JOIN t_shop shop ON t_good.shopId = shop.shopId
-    INNER JOIN t_activity a ON t_good.activityId = a.activityId
-    where goodState = #{goodState,jdbcType=INTEGER}
+    where t_good.activityId = #{activityid,jdbcType=INTEGER}
   </select>
   <!--查找全部商品信息-->
     <select id="selectAllGoods" resultMap="packageResultMap">
@@ -156,6 +157,7 @@
   <select id="selectShopId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     SELECT shopId FROM t_good WHERE goodId =#{goodid,jdbcType=INTEGER}
   </select>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.chineseivy.bean.Good">
     update t_good
     <set>
@@ -190,4 +192,13 @@
     where goodId = #{goodid,jdbcType=INTEGER}
   </update>
 
+  <update id="updateGoodStateByAdmin" parameterType="int">
+    UPDATE t_good
+    <set>
+      <if test="goodstate!=null">
+        goodState = #{goodstate,jdbcType=INTEGER}
+      </if>
+      WHILE goodId = #{goodid,jdbcType=INTEGER}
+    </set>
+  </update>
 </mapper>

@@ -39,8 +39,9 @@ public class GoodControllerTest {
     @Test
     public void updateGoodMessage() {
         Good good = new Good();
-        good.setGoodid(5);
+        good.setGoodid(49);
         good.setGoodname("jfdkjfie");
+        good.setGoodstate(0);
         goodService.updateGood(good);
     }
 

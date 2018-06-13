@@ -62,5 +62,5 @@ public interface WarehouseService {
     * @params:
     * @returns:
     **/
-    WarehousePackage selectByPrimaryKey(WarehouseKey warehouseKey);
+    WarehousePackage selectByPrimaryKey(int goodId);
 }

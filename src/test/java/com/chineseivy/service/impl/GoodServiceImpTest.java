@@ -25,7 +25,7 @@ public class GoodServiceImpTest {
     @Test
     public void selectAllGood() {
         List<GoodPackage> goodPackageList= goodMapper.selectAllGoods();
-        System.out.println(goodPackageList.size());
+        System.out.println(goodPackageList.get(0));
 
     }
 
@@ -49,22 +49,18 @@ public class GoodServiceImpTest {
     @Test
     public void updateGood() {
         Good good = new Good();
-        good.setGoodid(2);
-        good.setGoodstate(1);
-        good.setGoodname("cjien");
+        good.setGoodid(5);
+        good.setGoodstate(0);
+        good.setGoodname("gyjgyu");
+        good.setRecommendstate(0);
         int flag = goodMapper.updateByPrimaryKeySelective(good);
         System.out.println("更新行数："+flag);
     }
 
     @Test
     public void deleteGoodByPrimaryKey() {
-        int flag = goodMapper.deleteByPrimaryKey(2);
+        int flag = goodMapper.deleteByPrimaryKey(56);
         System.out.println("删除行数："+flag);
     }
 
-    @Test
-    public void selectGoodByGoodState() {
-        List<GoodPackage> goodPackageList = goodMapper.selectByGoodState(1);
-        System.out.println("goodPackage大小：" + goodPackageList.size());
-    }
 }

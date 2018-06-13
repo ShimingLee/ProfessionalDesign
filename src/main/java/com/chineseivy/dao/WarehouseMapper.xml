@@ -52,18 +52,16 @@
     INNER JOIN t_shop shop ON t_warehouse.shopId = shop.shopId
   </select>
 
-  <select id="selectByPrimaryKey" parameterType="com.chineseivy.bean.WarehouseKey" resultMap="packageResultMap">
+  <select id="selectByPrimaryKey" resultMap="packageResultMap">
     select 'true' as QUERYID,
     t_warehouse.supplyNumber,t_warehouse.supplyTime,t_warehouse.wareNumber,good.*,shop.*
     from t_warehouse
     INNER JOIN t_good good ON t_warehouse.goodId = good.goodId
     INNER JOIN t_shop shop ON t_warehouse.shopId = shop.shopId
     <where>
-        <if test="goodid != null">
-          t_warehouse.goodId = #{goodid,jdbcType=INTEGER}
-        </if>
-        <if test="shopid != null">
-          and t_warehouse.shopId = #{shopid,jdbcType=INTEGER}
+      1=1
+        <if test="_parameter != null">
+        AND t_warehouse.goodId = #{_parameter,jdbcType=INTEGER}
         </if>
     </where>
   </select>

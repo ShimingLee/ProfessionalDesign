@@ -2,6 +2,8 @@ package com.chineseivy.dao;
 
 import com.chineseivy.bean.Activity;
 import com.chineseivy.bean.ActivityExample;
+
+import java.util.Date;
 import java.util.List;
 
 import com.chineseivy.bean.ActivityPackage;
@@ -20,4 +22,6 @@ public interface ActivityMapper {
     int updateByPrimaryKey(Activity record);
 
     List<ActivityPackage> selectAllActivity();
+
+    List<ActivityPackage> selectValidActivity(Date date);
 }

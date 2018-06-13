@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -36,6 +38,7 @@ public class ActivityServiceImpTest {
     public void selectByPrimaryKey() {
         ActivityPackage activity = activityMapper.selectByPrimaryKey(1);
         System.out.println(activity.getActivitytheme());
+        System.out.println(activity.getFormatactivityendtime());
     }
 
     @Test
@@ -44,5 +47,8 @@ public class ActivityServiceImpTest {
 
     @Test
     public void selectAllActivity() {
+        List<ActivityPackage> activitys = activityMapper.selectAllActivity();
+        System.out.println("))))))))))))))))))"+activitys.get(0).getActivitytheme());
+        System.out.println("00000000:"+activitys.get(0).getGoods());
     }
 }
